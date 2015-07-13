@@ -1,0 +1,72 @@
+.location-management {
+    padding: 10px 0 20px 100px;
+    width: 650px;
+    overflow: auto;
+
+    text-align: center;
+}
+
+.location-management-regions {
+    padding: 10px;
+    color: #0C090A;
+}
+
+.location-management-regions-directory {
+    float:left;
+    width: 230px;
+}
+
+.location-management-regions-iplocation {
+    margin-left: 390px;
+    width: 200px;
+}
+
+.location-management-regions-directory_li,
+.location-management-regions-iplocation_li {
+    padding: 5px 13px;
+    margin: 10px 0;
+
+    font-size: 13px;
+    background-color: #ecf0f1;
+
+    border: 2px solid #bdc3c7;
+    border-radius: 5px;
+}
+
+.location-management-regions-iplocation_li:hover {
+    cursor: -webkit-grab;
+    cursor: grab;
+
+    opacity: 0.85;
+}
+
+.connected {
+    background-color: rgba(46, 204, 113, 0.8);
+    color: #fefefe;
+    font-size: 14px;
+    font-weight: bolder;
+}
+
+.droppable-hover {
+    background-color: rgba(189, 195, 199, 0.8);
+}
+
+.droppable-iplocations-hover {
+    background-color: rgba(230, 230, 230, 0.07);
+}
+
+.iplocation-connected {
+    background-color: #22313f;
+    border-color: #ecf0f1;
+    color: #fefefe;
+    font-weight: 300;
+    font-size: 14px;
+}
+
+.not-selectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

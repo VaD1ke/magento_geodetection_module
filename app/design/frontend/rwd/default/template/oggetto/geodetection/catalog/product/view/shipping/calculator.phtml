@@ -1,0 +1,17 @@
+<?php /** @var Oggetto_GeoDetection_Block_Shipping_Calculator $this */ ?>
+<?php if ($this->isEnabled()):
+    $calculations = $this->getDeliveryPriceAndTime(); ?>
+
+    <?php if ($calculations): ?>
+
+        <?php foreach($calculations as $carrier => $methods): ?>
+            <h2><?php echo $carrier; ?></h2>
+
+            <?php foreach($methods as $title => $method): ?>
+                <h3><?php echo $title . ' : ' . Mage::helper('core')->formatPrice($method['price']); ?></h3>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+
+    <?php endif; ?>
+
+<?php endif; ?>

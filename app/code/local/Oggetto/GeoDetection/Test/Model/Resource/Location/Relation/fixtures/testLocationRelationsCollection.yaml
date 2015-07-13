@@ -1,0 +1,17 @@
+tables:
+  oggetto_geodetection/table_region_iplocations_relation:
+    - id: 1
+      directory_region_id: 1
+      iplocation_region: test1
+    - id: 2
+      directory_region_id: 2
+      iplocation_region: test2
+    - id: 3
+      directory_region_id: 3
+      iplocation_region: test3
+    - id: 4
+      directory_region_id: 4
+      iplocation_region: test3
+    - id: 5
+      directory_region_id: 3
+      iplocation_region: test5

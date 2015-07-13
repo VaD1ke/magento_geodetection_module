@@ -1,0 +1,67 @@
+<h1>Geo Detection Management</h1>
+<?php
+/** @var Oggetto_GeoDetection_Block_Adminhtml_Management $this */
+
+if (!$countryCode) {
+    $defaultCountryCode = $this->getDefaultCountry();
+} else {
+    $defaultCountryCode = $countryCode;
+}
+$allCountries       = $this->getAllCountries();
+$directoryRegions   = $this->getDirectoryRegionsByCountryCode($defaultCountryCode);
+$iplocationRegions  = $this->getNotConnectedIplocationRegionsByCountryCode($defaultCountryCode);
+?>
+
+<h2><?php echo $this->__('Connect the regions'); ?></h2>
+<h4><?php echo $this->__('Drag iplocation region from right column and drop it to another region in left column') ?></h4>
+
+<form name="location-relation-form" action="<?php echo $this->getUrlForRelationsSaving(); ?>" method="post">
+    <input name="form_key" type="hidden" value="<?php echo $this->getFormKey(); ?>" />
+    <label>
+        <select id="country-selection" name="data[country_code]">
+            <?php foreach($allCountries as $country): ?>
+                <option value="<?php echo $country['value']; ?>"
+                        <?php if ($country['value'] == $defaultCountryCode) echo 'selected'; ?>>
+                    <?php echo $country['label']; ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </label>
+
+    <input type="submit" value="<?php echo $this->__('save connections'); ?>"/>
+    <div class="location-management">
+        <div class="location-management-regions"
+             data-form-key="<?php echo $this->getFormKey(); ?>">
+
+            <ul class="location-management-regions-directory">
+                <?php foreach ($directoryRegions as $region): ?>
+                    <?php $ipregions = $this->getIplocationRegionsByDirectoryRegionId($region['region_id']); ?>
+
+                    <li id="directory-region-<?php echo $region['region_id']; ?>" data-id="<?php echo $region['region_id']; ?>"
+                        class="location-management-regions-directory_li <?php if ($ipregions) echo 'connected'; ?> not-selectable">
+
+                        <?php echo $region['default_name']; ?>
+                        <ul class="location-management-regions-directory_ul">
+                            <?php foreach ($ipregions as $ipregion): ?>
+                                <li class="location-management-regions-iplocation_li iplocation-connected not-selectable"
+                                    data-region-id="<?php echo $region['region_id']?>">
+                                    <input type="hidden" name="data[<?php echo $region['region_id']; ?>][]" value="<?php echo $ipregion; ?>">
+                                    <?php echo $this->__($ipregion); ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+
+            <ul class="location-management-regions-iplocation">
+                <?php foreach ($iplocationRegions as $region): ?>
+                    <li class="location-management-regions-iplocation_li not-selectable">
+                        <?php echo $this->__($region); ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+
+        </div>
+    </div>
+</form>

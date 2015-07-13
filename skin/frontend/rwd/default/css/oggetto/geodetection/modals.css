@@ -1,0 +1,42 @@
+.modal {
+    background: #eee;
+    width: 600px;
+    margin: 20px auto;
+    display: none;
+    /*overflow:hidden;*/
+
+    border: 3px solid #666;
+    padding: 20px;
+}
+
+.modal .close {
+    float: right;
+    text-decoration: none;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.geo-location {
+    margin: 20px 20px 0 10px;
+    height: 500px;
+    /*overflow-y: auto;*/
+}
+
+.location-region {
+    margin-right: 10px;
+    float: left;
+    overflow-y: auto;
+    max-height: 500px;
+    width: 250px;
+}
+
+.location-city {
+    margin-left: 10px;
+    overflow-y: auto;
+    max-height: 500px;
+    width: 250px;
+}
+
+.modal-footer {
+    clear: both;
+}

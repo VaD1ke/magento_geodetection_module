@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<!--
+Oggetto Geo Detection extension for Magento
+
+NOTICE OF LICENSE
+
+This source file is subject to the Open Software License (OSL 3.0)
+that is bundled with this package in the file LICENSE.txt.
+It is also available through the world-wide-web at this URL:
+http://opensource.org/licenses/osl-3.0.php
+
+DISCLAIMER
+
+Do not edit or add to this file if you wish to upgrade
+the Oggetto Geo Detection module to newer versions in the future.
+If you wish to customize the Oggetto GeoDetection module for your needs
+please refer to http://www.magentocommerce.com for more information.
+
+@category   Oggetto
+@package    Oggetto_GeoDetection
+@copyright  Copyright (C) 2015 Oggetto Web (http://oggettoweb.com)
+@license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+-->
+<layout>
+    <adminhtml_config_location_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/oggetto/geodetection/management.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/oggetto/geodetection/management.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/oggetto/geodetection/jquery/jquery-ui.min.css</name>
+            </action>
+
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/oggetto/geodetection/jquery/jquery-2.1.4.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/oggetto/geodetection/jquery/noconflict.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/oggetto/geodetection/jquery/jquery-ui.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/oggetto/geodetection/country-selection.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/oggetto/geodetection/drag-drop-regions.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/oggetto/geodetection/regions-connection.js</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="oggetto_geodetection/adminhtml_management" name="content.geodetection_management"
+                   template="oggetto/geodetection/management.phtml"/>
+        </reference>
+    </adminhtml_config_location_index>
+</layout>

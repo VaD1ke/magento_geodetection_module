@@ -1,0 +1,12 @@
+<?php /** @var Oggetto_GeoDetection_Block_Header_Location $this */ ?>
+<?php $_location = $this->getUserLocation();
+    if ($this->isEnabled()):?>
+
+    <div id="geo_detection">
+        <h4>Ваш город: </h4>
+        <a href="#" id="geo_detection-city" class="city-trigger"
+           data-country-code="<?php echo $_location['country'] ? $_location['country'] : $this->getDefaultCountry(); ?>">
+            <?php echo ($_location) ? $_location['city'] : $this->__('Select your city'); ?>
+        </a>
+    </div>
+<?php endif; ?>
