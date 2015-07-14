@@ -110,4 +110,34 @@ class Oggetto_GeoDetection_Test_Model_Resource_Location_Relation_Collection exte
             $this->_collection->getIplocationRegionsByDirectoryRegionId($regionId)->getData()[0]
         );
     }
+
+    /**
+     * Insert multiple rows
+     *
+     * @return void
+     *
+     * @loadFixture testLocationRelationsCollection
+     */
+    public function testInsertsMultipleRows()
+    {
+        $data = [
+            [
+                'id'                  => 6,
+                'directory_region_id' => '4',
+                'iplocation_region'   => 'test6'
+            ],
+            [
+                'id'                  => 7,
+                'directory_region_id' => '5',
+                'iplocation_region'   => 'test7'
+            ]
+        ];
+
+        $this->_collection->insertMultiple($data);
+
+        $this->assertEquals(
+            $this->expected('regions')->getData(),
+            $this->_collection->getData()
+        );
+    }
 }
