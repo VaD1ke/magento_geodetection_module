@@ -1,0 +1,62 @@
+{
+    "name": "vad1ke/magento_geodetection_module",
+    "type": "magento-module",
+    "license": "OSL-3.0",
+    "description": "Oggetto Geo Detection module for magento",
+    "authors":[
+        {
+            "name":"Vladislav Slesarenko",
+            "email":"vslesarenko@oggettoweb.com"
+        }
+    ],
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*",
+        "oggettoweb/ajax": "1.*"
+    },
+    "extra": {
+        "map": [
+            [
+                "app/code/local/Oggetto/GeoDetection", 
+                "app/code/community/Oggetto/GeoDetection"
+            ],
+            [
+                "app/etc/modules/Oggetto_GeoDetection.xml", 
+                "app/etc/modules/Oggetto_GeoDetection.xml"
+            ],
+
+            [
+                "app/design/adminhtml/default/default/layout/oggetto/geodetection.xml", 
+                "app/design/adminhtml/default/default/layout/oggetto/geodetection.xml"
+            ],
+            [
+                "app/design/adminhtml/default/default/template/oggetto/geodetection", 
+                "app/design/adminhtml/default/default/template/oggetto/geodetection"
+            ],
+            [
+                "app/design/adminhtml/frontend/rwd/layout/oggetto/geodetection.xml", 
+                "app/design/frontend/rwd/default/layout/oggetto/geodetection.xml"
+            ],
+            [
+                "app/design/adminhtml/frontend/rwd/template/oggetto/geodetection", 
+                "app/design/frontend/rwd/default/template/oggetto/geodetection"
+            ],
+
+            [
+                "skin/adminhtml/default/default/css/oggetto/geodetection", 
+                "skin/adminhtml/default/default/css/oggetto/geodetection"
+            ],
+            [
+                "skin/adminhtml/default/default/js/oggetto/geodetection", 
+                "skin/adminhtml/default/default/js/oggetto/geodetection"
+            ],
+            [
+                "skin/frontend/rwd/default/css/oggetto/geodetection", 
+                "skin/frontend/rwd/default/css/oggetto/geodetection"
+            ],
+            [
+                "skin/frontend/rwd/default/js/oggetto/geodetection", 
+                "skin/frontend/rwd/default/js/oggetto/geodetection"
+            ]
+        ]
+    }
+}
