@@ -10,8 +10,7 @@
         }
     ],
     "require": {
-        "magento-hackathon/magento-composer-installer": "*",
-        "oggettoweb/ajax": "1.*"
+        "magento-hackathon/magento-composer-installer": "*"
     },
     "extra": {
         "map": [

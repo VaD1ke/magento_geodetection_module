@@ -9,11 +9,16 @@ Update your `composer.json` like this
 ```JSON
     "require": {
         ...
+        "oggettoweb/ajax": "1.*",
         "vad1ke/magento_geodetection_module": "dev-master"
         ...
     },
     "repositories": [
     ...
+        {
+            "type": "vcs",
+            "url": "https://github.com/OggettoWeb/ajax"
+        },
         {
             "type": "vcs",
             "url": "https://github.com/VaD1ke/magento_geodetection_module"
