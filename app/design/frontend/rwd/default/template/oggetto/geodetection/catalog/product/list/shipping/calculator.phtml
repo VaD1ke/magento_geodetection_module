@@ -3,15 +3,19 @@
     $calculations = $this->getDeliveryPriceAndTime(); ?>
 
     <?php if ($calculations): ?>
+        <ul>
+            <?php foreach($calculations as $carrier => $methods): ?>
+                <li style="margin-bottom:5px;">
+                    <h6 style="margin-bottom:0;"><?php echo $carrier; ?></h6>
 
-        <?php foreach($calculations as $carrier => $methods): ?>
-            <h5><?php echo $carrier; ?></h5>
-
-            <?php foreach($methods as $title => $method): ?>
-                <h6><?php echo $title . ' : ' . Mage::helper('core')->formatPrice($method['price']); ?></h6>
+                    <?php foreach($methods as $title => $method): ?>
+                        <span>
+                            <?php echo $title . ' ' . Mage::helper('core')->formatPrice($method['price']); ?>
+                        </span>
+                    <?php endforeach; ?>
+                </li>
             <?php endforeach; ?>
-        <?php endforeach; ?>
-
+        </ul>
     <?php endif; ?>
 
 <?php endif; ?>

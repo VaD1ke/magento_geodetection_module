@@ -149,12 +149,17 @@ class Oggetto_GeoDetection_Helper_Data extends Mage_Core_Helper_Data
         $region = Mage::getModel('directory/region')->load($cookie['region_id']);
 
         $requestData = [
-            'dest_city'       => $cookie['city'],
-            'dest_region'     => $region->getName(),
-            'dest_region_id'  => $cookie['region_id'],
-            'dest_country_id' => $cookie['country'],
-            'product_weight'  => $product->getData('weight'),
-            'product_qty'     => 1,
+            'dest_city'         => $cookie['city'],
+            'dest_region'       => $region->getName(),
+            'dest_region_id'    => $cookie['region_id'],
+            'dest_country_id'   => $cookie['country'],
+            'product_weight'    => $product->getData('weight'),
+            'product_qty'       => Oggetto_GeoDetection_Block_Shipping_Calculator::FAKE_PRODUCTS_QTY,
+            'dest_postcode'     => Oggetto_GeoDetection_Block_Shipping_Calculator::FAKE_DEST_POSTCODE,
+            'package_value'     => $product->getData('price'),
+            'freemethod_weight' => $product->getData('weight'),
+            'website_id'        => Mage::app()->getWebsite()->getId(),
+            'store_id'          => Mage::app()->getStore()->getId(),
         ];
 
         return $requestData;

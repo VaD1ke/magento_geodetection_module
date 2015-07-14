@@ -33,6 +33,16 @@
 class Oggetto_GeoDetection_Block_Shipping_Calculator extends Mage_Core_Block_Template
 {
     /**
+     * Fake destination postcode for shipping calculation
+     */
+    const FAKE_DEST_POSTCODE = '12345';
+
+    /**
+     * Fake products quantity for shipping calculation
+     */
+    const FAKE_PRODUCTS_QTY = 1;
+
+    /**
      * Product
      *
      * @var Mage_Catalog_Model_Product

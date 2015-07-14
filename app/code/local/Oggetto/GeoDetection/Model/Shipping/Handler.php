@@ -50,7 +50,7 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
 
             $result = $carrier->collectRates($this->_prepareRequest($requestData));
 
-            if ($result) {
+            if ($result && !$result->getError()) {
                 $shippingRates = $result->getAllRates();
 
                 foreach ($shippingRates as $rate) {
@@ -80,8 +80,15 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
         $request->setDestCountryId($data['dest_country_id']);
         $request->setDestRegionId($data['dest_region_id']);
         $request->setDestRegion($data['dest_region']);
+        $request->setDestPostcode($data['dest_postcode']);
+
         $request->setPackageWeight($data['product_weight']);
         $request->setPackageQty($data['product_qty']);
+        $request->setPackageValue($data['package_value']);
+        $request->setFreeMethodWeight($data['freemethod_weight']);
+
+        $request->setStoreId($data['store_id']);
+        $request->setWebsiteId($data['website_id']);
 
         return $request;
     }
