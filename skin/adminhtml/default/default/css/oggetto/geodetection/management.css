@@ -8,6 +8,8 @@
 
 .location-management-regions {
     padding: 10px;
+    overflow: auto;
+
     color: #0C090A;
 }
 

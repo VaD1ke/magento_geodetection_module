@@ -28,27 +28,19 @@ please refer to http://www.magentocommerce.com for more information.
                 <type>skin_css</type>
                 <name>css/oggetto/geodetection/management.css</name>
             </action>
-            <action method="addItem">
-                <type>skin_css</type>
-                <name>css/oggetto/geodetection/management.css</name>
-            </action>
-            <action method="addItem">
-                <type>skin_css</type>
-                <name>css/oggetto/geodetection/jquery/jquery-ui.min.css</name>
-            </action>
 
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/oggetto/geodetection/jquery/jquery-2.1.4.min.js</name>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/oggetto/geodetection/jquery/noconflict.js</name>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <name>js/oggetto/geodetection/jquery/jquery-ui.min.js</name>
-            </action>
+            <!--<action method="addItem">-->
+                <!--<type>skin_js</type>-->
+                <!--<name>js/oggetto/geodetection/jquery/jquery-2.1.4.min.js</name>-->
+            <!--</action>-->
+            <!--<action method="addItem">-->
+                <!--<type>skin_js</type>-->
+                <!--<name>js/oggetto/geodetection/jquery/noconflict.js</name>-->
+            <!--</action>-->
+            <!--<action method="addItem">-->
+                <!--<type>skin_js</type>-->
+                <!--<name>js/oggetto/geodetection/jquery/jquery-ui.min.js</name>-->
+            <!--</action>-->
             <action method="addItem">
                 <type>skin_js</type>
                 <name>js/oggetto/geodetection/country-selection.js</name>

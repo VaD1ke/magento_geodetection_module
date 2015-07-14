@@ -23,6 +23,12 @@
 
 "use strict";
 function connectRegions(directoryRegion, iplocationRegion, $) {
+    var regionId = $(directoryRegion).data('id');
+
+    if ($(iplocationRegion).data('regionId') == regionId) {
+        return;
+    }
+
     if ( !($(directoryRegion).hasClass('connected')) ) {
         $(directoryRegion).addClass('connected');
     }
@@ -35,7 +41,6 @@ function connectRegions(directoryRegion, iplocationRegion, $) {
         $('#directory-region-' + prevRegionId).removeClass('connected');
     }
 
-    var regionId = $(directoryRegion).data('id');
 
     var input = $('<input>').attr('type', 'hidden')
                             .attr('name', 'data[' + regionId + '][]')

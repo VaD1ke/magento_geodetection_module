@@ -32,21 +32,4 @@
  */
 class Oggetto_GeoDetection_Test_Block_Modal extends EcomDev_PHPUnit_Test_Case
 {
-    /**
-     * Block modal
-     *
-     * @var Oggetto_GeoDetection_Block_Modal
-     */
-    protected $_modalBlock;
-
-    /**
-     * Set up initial variables
-     *
-     * @return void
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->_modalBlock = new Oggetto_GeoDetection_Block_Modal;
-    }
 }
