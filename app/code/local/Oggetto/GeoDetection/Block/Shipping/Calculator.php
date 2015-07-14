@@ -64,7 +64,7 @@ class Oggetto_GeoDetection_Block_Shipping_Calculator extends Mage_Core_Block_Tem
     }
 
     /**
-     * Get product weight
+     * Get shipping rates result
      *
      * @return array
      */

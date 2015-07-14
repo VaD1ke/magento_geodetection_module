@@ -48,15 +48,17 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
             /** @var Mage_Shipping_Model_Carrier_Abstract $carrier */
             $carrier = Mage::getModel('shipping/shipping')->getCarrierByCode($methodCode);
 
-            $result = $carrier->collectRates($this->_prepareRequest($requestData));
+            if ($carrier) {
+                $result = $carrier->collectRates($this->_prepareRequest($requestData));
 
-            if ($result && !$result->getError()) {
-                $shippingRates = $result->getAllRates();
+                if ($result && !$result->getError()) {
+                    $shippingRates = $result->getAllRates();
 
-                foreach ($shippingRates as $rate) {
-                    $calculation[$rate->getCarrierTitle()][$rate->getMethodTitle()] = [
-                        'price' => $rate->getPrice()
-                    ];
+                    foreach ($shippingRates as $rate) {
+                        $calculation[$rate->getCarrierTitle()][$rate->getMethodTitle()] = [
+                            'price' => $rate->getPrice()
+                        ];
+                    }
                 }
             }
         }
