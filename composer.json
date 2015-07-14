@@ -32,11 +32,11 @@
                 "app/design/adminhtml/default/default/template/oggetto/geodetection"
             ],
             [
-                "app/design/adminhtml/frontend/rwd/layout/oggetto/geodetection.xml", 
+                "app/design/frontend/rwd/default/layout/oggetto/geodetection.xml", 
                 "app/design/frontend/rwd/default/layout/oggetto/geodetection.xml"
             ],
             [
-                "app/design/adminhtml/frontend/rwd/template/oggetto/geodetection", 
+                "app/design/frontend/rwd/default/template/oggetto/geodetection", 
                 "app/design/frontend/rwd/default/template/oggetto/geodetection"
             ],
 
