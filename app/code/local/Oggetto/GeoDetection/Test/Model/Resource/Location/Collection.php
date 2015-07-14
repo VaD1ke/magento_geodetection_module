@@ -78,6 +78,55 @@ class Oggetto_GeoDetection_Test_Model_Resource_Location_Collection extends EcomD
     }
 
     /**
+     * Return distinct regions and cities
+     *
+     * @return void
+     *
+     * @loadFixture testLocationsCollection
+     */
+    public function testReturnsDistinctRegionsAndCities()
+    {
+        $this->assertEquals(
+            $this->expected('regions_cities')->getData(),
+            $this->_collection->selectRegionsAndCities()->getData()
+        );
+    }
+
+    /**
+     * Return distinct regions and cities by country code
+     *
+     * @return void
+     *
+     * @loadFixture testLocationsCollection
+     */
+    public function testReturnsDistinctRegionsAndCitiesByCountryCode()
+    {
+        $countryCode = 'code3';
+
+        $this->assertEquals(
+            $this->expected('regions_cities')->getData(),
+            $this->_collection->selectRegionsAndCitiesByCountryCode($countryCode)->getData()
+        );
+    }
+
+    /**
+     * Return distinct regions and cities by country code ordered by IP count
+     *
+     * @return void
+     *
+     * @loadFixture testLocationsCollection
+     */
+    public function testReturnsDistinctRegionsAndCitiesByCountryCodeOrderByIpCount()
+    {
+        $countryCode = 'code3';
+
+        $this->assertEquals(
+            $this->expected('regions_cities')->getData(),
+            $this->_collection->selectRegionsAndCitiesByCountryCodeOrderByIpCount($countryCode)->getData()
+        );
+    }
+
+    /**
      * Return distinct regions
      *
      * @return void
@@ -93,17 +142,19 @@ class Oggetto_GeoDetection_Test_Model_Resource_Location_Collection extends EcomD
     }
 
     /**
-     * Return distinct regions and cities
+     * Return distinct regions by country code
      *
      * @return void
      *
      * @loadFixture testLocationsCollection
      */
-    public function testReturnsDistinctRegionsAndCities()
+    public function testReturnsDistinctRegionsByCountryCode()
     {
+        $countryCode = 'code3';
+
         $this->assertEquals(
-            $this->expected('regions_cities')->getData(),
-            $this->_collection->selectRegionsAndCities()->getData()
+            $this->expected('regions')->getData(),
+            $this->_collection->selectRegionsByCountryCode($countryCode)->getData()
         );
     }
 
@@ -121,6 +172,24 @@ class Oggetto_GeoDetection_Test_Model_Resource_Location_Collection extends EcomD
         $this->assertEquals(
             $this->expected('regions')->getData(),
             $this->_collection->selectRegionsThatNotInRegionsArray($regionsArray)->getData()
+        );
+    }
+
+    /**
+     * Return regions that are not in established regions array by country code
+     *
+     * @return void
+     *
+     * @loadFixture testLocationsCollection
+     */
+    public function testReturnsRegionsThatAreNotInEstablishedRegionsArrayByCountryCode()
+    {
+        $countryCode = 'code1';
+        $regionsArray = ['region2', 'region3'];
+
+        $this->assertEquals(
+            $this->expected('regions')->getData(),
+            $this->_collection->selectRegionsThatNotInRegionsArrayByCountryCode($regionsArray, $countryCode)->getData()
         );
     }
 }

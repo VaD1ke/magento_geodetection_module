@@ -86,6 +86,22 @@ class Oggetto_GeoDetection_Model_Resource_Location_Collection extends Mage_Core_
     }
 
     /**
+     * Select regions and cities by country code
+     *
+     * @param string $countryCode Country code
+     *
+     * @return $this
+     */
+    public function selectRegionsAndCitiesByCountryCodeOrderByIpCount($countryCode)
+    {
+        $this->addFieldToFilter('country_code', ['eq' => $countryCode])
+            ->getSelect()->reset(Zend_Db_Select::COLUMNS)->columns(['region_name', 'city_name'])->distinct(true)
+            ->group(['region_name', 'city_name'])->order(['region_name ASC', 'COUNT(ip_from) DESC']);
+
+        return $this;
+    }
+
+    /**
      * Select regions by country code
      *
      * @param string $countryCode Country code

@@ -164,11 +164,11 @@ class Oggetto_GeoDetection_Test_Model_Location extends EcomDev_PHPUnit_Test_Case
         $countryCode = 'code';
 
         $collectionLocationsMock = $this->getResourceModelMock('oggetto_geodetection/location_collection', [
-            'selectRegionsAndCitiesByCountryCode', 'getData'
+            'selectRegionsAndCitiesByCountryCodeOrderByIpCount', 'getData'
         ]);
 
         $collectionLocationsMock->expects($this->once())
-            ->method('selectRegionsAndCitiesByCountryCode')
+            ->method('selectRegionsAndCitiesByCountryCodeOrderByIpCount')
             ->with($countryCode)
             ->willReturnSelf();
 

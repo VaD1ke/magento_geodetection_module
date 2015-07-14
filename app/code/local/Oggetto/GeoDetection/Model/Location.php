@@ -78,7 +78,7 @@ class Oggetto_GeoDetection_Model_Location extends Mage_Core_Model_Abstract
      */
     public function getRegionsAndCitiesByCountryCode($countryCode)
     {
-        $locations = $this->getCollection()->selectRegionsAndCitiesByCountryCode($countryCode)->getData();
+        $locations = $this->getCollection()->selectRegionsAndCitiesByCountryCodeOrderByIpCount($countryCode)->getData();
 
         $returnLocations = [];
 

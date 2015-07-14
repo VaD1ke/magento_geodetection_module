@@ -34,4 +34,18 @@ tables:
       country_code: code3
       country_name: country3
       region_name: region3
+      city_name: city5
+    - id: 6
+      ip_from: 1111111111
+      ip_to: 2422222222
+      country_code: code3
+      country_name: country3
+      region_name: region3
+      city_name: city4
+    - id: 7
+      ip_from: 11111111111
+      ip_to: 24222222222
+      country_code: code3
+      country_name: country3
+      region_name: region3
       city_name: city4
