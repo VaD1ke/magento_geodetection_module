@@ -25,7 +25,7 @@ please refer to http://www.magentocommerce.com for more information.
     <modules>
         <Oggetto_GeoDetection>
             <active>true</active>
-            <codePool>local</codePool>
+            <codePool>community</codePool>
         </Oggetto_GeoDetection>
     </modules>
 </config>
