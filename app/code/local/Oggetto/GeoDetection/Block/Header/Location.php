@@ -70,7 +70,7 @@ class Oggetto_GeoDetection_Block_Header_Location extends Mage_Page_Block_Html_He
                 'city'      => $location['city_name']
             ];
 
-            $cookieModel->set(self::LOCATION_COOKIE_NAME, $helper->jsonEncode($cookieData), 0, '/', null, null, true);
+            $cookieModel->set(self::LOCATION_COOKIE_NAME, $helper->jsonEncode($cookieData), 0, '/', null, null, false);
 
             return $cookieData;
         }

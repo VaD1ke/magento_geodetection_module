@@ -94,7 +94,7 @@ jQuery( function ($) {
 
         var locationJson = JSON.stringify(locationData);
 
-        setCookie('user_location', locationJson, { path: "/" });
+        Mage.Cookies.set('user_location', locationJson);
 
         location.reload();
     });
