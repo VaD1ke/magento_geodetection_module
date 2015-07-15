@@ -23,23 +23,67 @@
  */
 
 /**
- * Helper Data
+ * Directory fetcher
  *
  * @category   Oggetto
  * @package    Oggetto_GeoDetection
- * @subpackage Helper
+ * @subpackage Model
  * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
  */
-class Oggetto_GeoDetection_Helper_Data extends Mage_Core_Helper_Data
+class Oggetto_GeoDetection_Model_Directory_Fetcher
 {
     /**
-     * Get selected shipping methods
+     * Get regions
+     *
+     * @param string $countryCode Country code
+     *
+     * @return $this
+     */
+    public function getRegions($countryCode)
+    {
+        /** @var Oggetto_GeoDetection_Model_Resource_Directory_Region_Collection $collection */
+        $collection = Mage::getResourceModel('oggetto_geodetection/directory_region_collection');
+
+        return $collection->getRegions()->addCountryFilter($countryCode)->getData();
+    }
+
+    /**
+     * Get all countries
+     *
+     * @return mixed
+     */
+    public function getAllCountries()
+    {
+        $countryList = Mage::getModel('directory/country')->getResourceCollection()
+            ->loadByStore()
+            ->toOptionArray(false);
+
+        return $countryList;
+    }
+
+    /**
+     * Convert location to directory regions
+     *
+     * @param array $locationsData Locations data
      *
      * @return array
      */
-    public function getSelectedShippingMethods()
+    public function convertLocationToDirectoryRegions($locationsData)
     {
-        return explode(',', Mage::getStoreConfig('oggetto_geodetection_options/general/select_shipping'));
+        $returnLocation = [];
+
+        foreach ($locationsData as $region => $location) {
+            $directoryRegion = $this->_getDirectoryRegionByIplocationRegionName($region);
+
+            if ($directoryRegion) {
+                foreach ($location as $city) {
+                    $returnLocation[$directoryRegion['default_name']]['cities'][] = $city;
+                    $returnLocation[$directoryRegion['default_name']]['id'] = $directoryRegion['region_id'];
+                }
+            }
+        }
+
+        return $returnLocation;
     }
 
     /**
@@ -70,6 +114,33 @@ class Oggetto_GeoDetection_Helper_Data extends Mage_Core_Helper_Data
      * @return null|string
      */
     public function getDirectoryRegionByIplocationRegionName($regionName)
+    {
+        /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
+        $relationModel = Mage::getModel('oggetto_geodetection/location_relation');
+
+        $directoryRegionId = $relationModel->getRegionIdByIplocationRegionName($regionName);
+
+        if (!$directoryRegionId) {
+            return null;
+        }
+
+        $data = Mage::getModel('directory/region')->load($directoryRegionId)->getData();
+
+        if (!$data) {
+            return null;
+        }
+
+        return $data;
+    }
+
+    /**
+     * Get directory region by iplocation region name
+     *
+     * @param string $regionName Region name
+     *
+     * @return null|string
+     */
+    protected function _getDirectoryRegionByIplocationRegionName($regionName)
     {
         /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
         $relationModel = Mage::getModel('oggetto_geodetection/location_relation');

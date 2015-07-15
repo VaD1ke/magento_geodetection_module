@@ -53,13 +53,16 @@ class Oggetto_GeoDetection_LocationController extends Mage_Core_Controller_Front
         /** @var Oggetto_Ajax_Helper_Data $helperAjax */
         $helperAjax = Mage::helper('ajax');
 
-        /** @var Oggetto_GeoDetection_Model_Location $model */
-        $model = Mage::getModel('oggetto_geodetection/location');
+        /** @var Oggetto_GeoDetection_Model_Directory_Fetcher $fetcherModel */
+        $fetcherModel = Mage::getModel('oggetto_geodetection/directory_fetcher');
+
+        /** @var Oggetto_GeoDetection_Model_Location_Fetcher $model */
+        $model = Mage::getModel('oggetto_geodetection/location_fetcher');
 
         try {
-            $locations = $model->getRegionsAndCitiesByCountryCode($countryCode);
-            $locations = $helper->convertLocationToDirectoryRegions($locations);
-            $locations = Mage::helper('core')->jsonEncode($locations);
+            $locations = $model->getRegionsAndCities($countryCode);
+            $locations = $fetcherModel->convertLocationToDirectoryRegions($locations);
+            $locations = $helper->jsonEncode($locations);
 
         } catch (Exception $e) {
             $response->error();

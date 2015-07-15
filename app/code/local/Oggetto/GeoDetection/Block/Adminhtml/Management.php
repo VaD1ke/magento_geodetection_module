@@ -52,10 +52,10 @@ class Oggetto_GeoDetection_Block_Adminhtml_Management extends Mage_Adminhtml_Blo
      *
      * @return array
      */
-    public function getNotConnectedIplocationRegionsByCountryCode($countryCode)
+    public function getNotConnectedIplocationRegions($countryCode)
     {
-        /** @var Oggetto_GeoDetection_Model_Location $model */
-        $model = Mage::getModel('oggetto_geodetection/location');
+        /** @var Oggetto_GeoDetection_Model_Location_Fetcher $model */
+        $model = Mage::getModel('oggetto_geodetection/location_fetcher');
 
         return $model->getNotConnectedRegionsByCountryCode($countryCode);
     }
@@ -67,12 +67,12 @@ class Oggetto_GeoDetection_Block_Adminhtml_Management extends Mage_Adminhtml_Blo
      *
      * @return array
      */
-    public function getDirectoryRegionsByCountryCode($countryCode)
+    public function getDirectoryRegions($countryCode)
     {
-        /** @var Oggetto_GeoDetection_Helper_Data $helper */
-        $helper = Mage::helper('oggetto_geodetection');
+        /** @var Oggetto_GeoDetection_Model_Directory_Fetcher $modelFetcher */
+        $modelFetcher = Mage::getModel('oggetto_geodetection/directory_fetcher');
 
-        return $helper->getDirectoryRegions($countryCode);
+        return $modelFetcher->getRegions($countryCode);
     }
 
     /**
@@ -82,7 +82,7 @@ class Oggetto_GeoDetection_Block_Adminhtml_Management extends Mage_Adminhtml_Blo
      *
      * @return array
      */
-    public function getIplocationRegionsByDirectoryRegionId($directoryRegionId)
+    public function getIplocationRegions($directoryRegionId)
     {
         /** @var Oggetto_GeoDetection_Model_Location_Relation $model */
         $model = Mage::getModel('oggetto_geodetection/location_relation');
@@ -107,9 +107,9 @@ class Oggetto_GeoDetection_Block_Adminhtml_Management extends Mage_Adminhtml_Blo
      */
     public function getAllCountries()
     {
-        /** @var Oggetto_GeoDetection_Helper_Data $helper */
-        $helper = Mage::helper('oggetto_geodetection');
+        /** @var Oggetto_GeoDetection_Model_Directory_Fetcher $modelFetcher */
+        $modelFetcher = Mage::getModel('oggetto_geodetection/directory_fetcher');
 
-        return $helper->getAllCountries();
+        return $modelFetcher->getAllCountries();
     }
 }

@@ -1,6 +1,6 @@
 <?php /** @var Oggetto_GeoDetection_Block_Shipping_Calculator $this */ ?>
 <?php if ($this->isEnabled()):
-    $calculations = $this->getDeliveryPriceAndTime(); ?>
+    $calculations = $this->calculateShipping(); ?>
 
     <?php if ($calculations): ?>
         <ul>

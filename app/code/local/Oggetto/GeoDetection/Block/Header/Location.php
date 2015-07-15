@@ -52,8 +52,8 @@ class Oggetto_GeoDetection_Block_Header_Location extends Mage_Page_Block_Html_He
         if (!$locationCookie) {
             $ipAddress = Mage::helper('core/http')->getRemoteAddr(true);
 
-            /** @var Oggetto_GeoDetection_Model_Location $locationModel */
-            $locationModel = Mage::getModel('oggetto_geodetection/location');
+            /** @var Oggetto_GeoDetection_Model_Location_Fetcher $locationModel */
+            $locationModel = Mage::getModel('oggetto_geodetection/location_fetcher');
 
             $location = $locationModel->getLocationByIp($ipAddress);
 

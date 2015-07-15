@@ -81,7 +81,7 @@ class Oggetto_GeoDetection_Test_Block_Adminhtml_Management extends EcomDev_PHPUn
         $countryCode = 'test';
 
         $modelLocationMock = $this->getModelMock(
-            'oggetto_geodetection/location', ['getNotConnectedRegionsByCountryCode']
+            'oggetto_geodetection/location_fetcher', ['getNotConnectedRegionsByCountryCode']
         );
 
         $modelLocationMock->expects($this->once())
@@ -89,10 +89,10 @@ class Oggetto_GeoDetection_Test_Block_Adminhtml_Management extends EcomDev_PHPUn
             ->with($countryCode)
             ->willReturn($regions);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/location', $modelLocationMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/location_fetcher', $modelLocationMock);
 
         $this->assertEquals(
-            $regions, $this->_managementBlock->getNotConnectedIplocationRegionsByCountryCode($countryCode)
+            $regions, $this->_managementBlock->getNotConnectedIplocationRegions($countryCode)
         );
     }
 
@@ -101,21 +101,21 @@ class Oggetto_GeoDetection_Test_Block_Adminhtml_Management extends EcomDev_PHPUn
      *
      * @return void
      */
-    public function testReturnsDirectoryRegionsByCountryCodeFromHelper()
+    public function testReturnsDirectoryRegionsByCountryCodeFromFetcherModel()
     {
         $regions = ['test'];
         $countryCode = 'test';
 
-        $helperDataMock = $this->getHelperMock('oggetto_geodetection', ['getDirectoryRegions']);
+        $modelFetcherMock = $this->getModelMock('oggetto_geodetection/directory_fetcher', ['getRegions']);
 
-        $helperDataMock->expects($this->once())
-            ->method('getDirectoryRegions')
+        $modelFetcherMock->expects($this->once())
+            ->method('getRegions')
             ->with($countryCode)
             ->willReturn($regions);
 
-        $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/directory_fetcher', $modelFetcherMock);
 
-        $this->assertEquals($regions, $this->_managementBlock->getDirectoryRegionsByCountryCode($countryCode));
+        $this->assertEquals($regions, $this->_managementBlock->getDirectoryRegions($countryCode));
     }
 
     /**
@@ -138,7 +138,7 @@ class Oggetto_GeoDetection_Test_Block_Adminhtml_Management extends EcomDev_PHPUn
         $this->replaceByMock('model', 'oggetto_geodetection/location_relation', $modelRelationMock);
 
         $this->assertEquals(
-            $regions, $this->_managementBlock->getIplocationRegionsByDirectoryRegionId($directoryRegionId)
+            $regions, $this->_managementBlock->getIplocationRegions($directoryRegionId)
         );
     }
 
@@ -167,17 +167,18 @@ class Oggetto_GeoDetection_Test_Block_Adminhtml_Management extends EcomDev_PHPUn
      *
      * @return void
      */
-    public function testReturnsAllCountriesFromHelper()
+    public function testReturnsAllCountriesFromFetcherModel()
     {
         $countries = ['testCountry1', 'testCountry2'];
 
-        $helperDataMock = $this->getHelperMock('oggetto_geodetection', ['getAllCountries']);
+        $modelFetcherMock = $this->getModelMock('oggetto_geodetection/directory_fetcher', ['getAllCountries']);
 
-        $helperDataMock->expects($this->once())
+        $modelFetcherMock->expects($this->once())
             ->method('getAllCountries')
             ->willReturn($countries);
 
-        $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/directory_fetcher', $modelFetcherMock);
+
 
         $this->assertEquals($countries, $this->_managementBlock->getAllCountries());
     }

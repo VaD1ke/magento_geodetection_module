@@ -33,7 +33,7 @@
 class Oggetto_GeoDetection_Test_Block_Shipping_Calculator extends EcomDev_PHPUnit_Test_Case
 {
     /**
-     * Block management
+     * Block calculator
      *
      * @var Oggetto_GeoDetection_Block_Shipping_Calculator
      */
@@ -58,11 +58,9 @@ class Oggetto_GeoDetection_Test_Block_Shipping_Calculator extends EcomDev_PHPUni
     public function testReturnsRatesResultsFromShipping()
     {
         $shippingMethods = ['method1', 'method2'];
-        $requestData     = ['test1', 'test2'];
         $calculation     = ['price', 'time'];
 
         $configurableProduct = new Mage_Catalog_Model_Product_Type_Configurable;
-        $simpleProduct = new Mage_Catalog_Model_Product;
 
         $blockCalculatorMock = $this->getBlockMock('oggetto_geodetection/shipping_calculator', ['_getProduct']);
 
@@ -74,22 +72,12 @@ class Oggetto_GeoDetection_Test_Block_Shipping_Calculator extends EcomDev_PHPUni
 
 
         $helperDataMock = $this->getHelperMock('oggetto_geodetection', [
-            'getSelectedShippingMethods', 'getCheapestSimpleProduct', 'prepareDataForShippingRequest'
+            'getSelectedShippingMethods'
         ]);
 
         $helperDataMock->expects($this->once())
             ->method('getSelectedShippingMethods')
             ->willReturn($shippingMethods);
-
-        $helperDataMock->expects($this->once())
-            ->method('getCheapestSimpleProduct')
-            ->with($configurableProduct)
-            ->willReturn($simpleProduct);
-
-        $helperDataMock->expects($this->once())
-            ->method('prepareDataForShippingRequest')
-            ->with($simpleProduct)
-            ->willReturn($requestData);
 
         $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
 
@@ -98,13 +86,13 @@ class Oggetto_GeoDetection_Test_Block_Shipping_Calculator extends EcomDev_PHPUni
 
         $modelHandlerMock->expects($this->once())
             ->method('getShippingResults')
-            ->with($shippingMethods, $requestData)
+            ->with($shippingMethods, $configurableProduct)
             ->willReturn($calculation);
 
         $this->replaceByMock('model', 'oggetto_geodetection/shipping_handler', $modelHandlerMock);
 
 
-        $this->assertEquals($calculation, $blockCalculatorMock->getDeliveryPriceAndTime());
+        $this->assertEquals($calculation, $blockCalculatorMock->calculateShipping());
     }
 
     /**

@@ -61,18 +61,4 @@ class Oggetto_GeoDetection_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case
     {
         $this->assertEquals(['test method', 'test method2'], $this->_helper->getSelectedShippingMethods());
     }
-
-    /**
-     * Return directory regions by country code
-     *
-     * @return void
-     *
-     * @loadFixture testDirectoryRegions
-     */
-    public function testReturnsDirectoryRegionsByCountryCode()
-    {
-        $countryCode = 'id1';
-
-        $this->assertEquals($this->expected('regions')->getData(), $this->_helper->getDirectoryRegions($countryCode));
-    }
 }

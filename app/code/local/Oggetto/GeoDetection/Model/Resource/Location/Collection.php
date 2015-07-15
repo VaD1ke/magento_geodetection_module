@@ -59,64 +59,6 @@ class Oggetto_GeoDetection_Model_Resource_Location_Collection extends Mage_Core_
     }
 
     /**
-     * Select regions and cities
-     *
-     * @return $this
-     */
-    public function selectRegionsAndCities()
-    {
-        $this->getSelect()->reset(Zend_Db_Select::COLUMNS)->columns(['region_name', 'city_name'])->distinct(true);
-
-        return $this;
-    }
-
-    /**
-     * Select regions and cities by country code
-     *
-     * @param string $countryCode Country code
-     *
-     * @return $this
-     */
-    public function selectRegionsAndCitiesByCountryCode($countryCode)
-    {
-        $this->addFieldToFilter('country_code', ['eq' => $countryCode])
-             ->getSelect()->reset(Zend_Db_Select::COLUMNS)->columns(['region_name', 'city_name'])->distinct(true);
-
-        return $this;
-    }
-
-    /**
-     * Select regions and cities by country code
-     *
-     * @param string $countryCode Country code
-     *
-     * @return $this
-     */
-    public function selectRegionsAndCitiesByCountryCodeOrderByIpCount($countryCode)
-    {
-        $this->addFieldToFilter('country_code', ['eq' => $countryCode])
-            ->getSelect()->reset(Zend_Db_Select::COLUMNS)->columns(['region_name', 'city_name'])->distinct(true)
-            ->group(['region_name', 'city_name'])->order(['region_name ASC', 'COUNT(ip_from) DESC']);
-
-        return $this;
-    }
-
-    /**
-     * Select regions by country code
-     *
-     * @param string $countryCode Country code
-     *
-     * @return $this
-     */
-    public function selectRegionsByCountryCode($countryCode)
-    {
-        $this->addFieldToFilter('country_code', ['eq' => $countryCode])
-             ->getSelect()->reset(Zend_Db_Select::COLUMNS)->columns('region_name')->distinct(true);
-
-        return $this;
-    }
-
-    /**
      * Select regions
      *
      * @return $this
@@ -129,34 +71,80 @@ class Oggetto_GeoDetection_Model_Resource_Location_Collection extends Mage_Core_
     }
 
     /**
-     * Select regions
+     * Select regions and cities
      *
-     * @param array $regionsArray Regions array
+     * @param int|null $limit Limit
      *
      * @return $this
      */
-    public function selectRegionsThatNotInRegionsArray($regionsArray)
+    public function selectRegionsAndCities($limit = null)
     {
-        $this->addFieldToFilter('region_name', ['nin' => $regionsArray])->getSelect()->reset(Zend_Db_Select::COLUMNS)
-             ->columns('region_name')->distinct(true);
+        $this->getSelect()->reset(Zend_Db_Select::COLUMNS)->columns(['region_name', 'city_name'])
+            ->distinct(true)->limit($limit);
 
         return $this;
     }
 
     /**
-     * Select iplocation regions that are not in region names array by country code
-     *
-     * @param array  $regionsArray Regions array
-     * @param string $countryCode  Country code
+     * Group by region and city
      *
      * @return $this
      */
-    public function selectRegionsThatNotInRegionsArrayByCountryCode($regionsArray, $countryCode)
+    public function groupByRegionAndCity()
     {
-        $this->addFieldToFilter('region_name', ['nin' => $regionsArray])
-             ->addFieldToFilter('country_code', ['eq' => $countryCode])
-             ->getSelect()->reset(Zend_Db_Select::COLUMNS)
-             ->columns('region_name')->distinct(true);
+        $this->getSelect()->group(['region_name', 'city_name']);
+
+        return $this;
+    }
+
+    /**
+     * Order by IP count
+     *
+     * @return $this
+     */
+    public function orderByIpCount()
+    {
+        $this->getSelect()->order(['COUNT(ip_from) DESC']);
+
+        return $this;
+    }
+
+    /**
+     * Order by IP count and region name
+     *
+     * @return $this
+     */
+    public function orderRegionNameAndByIpCount()
+    {
+        $this->getSelect()->order(['region_name ASC', 'COUNT(ip_from) DESC']);
+
+        return $this;
+    }
+
+    /**
+     * Filter by country code
+     *
+     * @param string $countryCode Country code
+     *
+     * @return $this
+     */
+    public function filterByCountryCode($countryCode)
+    {
+        $this->addFieldToFilter('country_code', ['eq' => $countryCode]);
+
+        return $this;
+    }
+
+    /**
+     * Filter regions not in array
+     *
+     * @param array $array Array
+     *
+     * @return $this
+     */
+    public function filterRegionsNotIn($array)
+    {
+        $this->addFieldToFilter('region_name', ['nin' => $array]);
 
         return $this;
     }

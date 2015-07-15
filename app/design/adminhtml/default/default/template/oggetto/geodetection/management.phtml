@@ -8,8 +8,8 @@ if (!$countryCode) {
     $defaultCountryCode = $countryCode;
 }
 $allCountries       = $this->getAllCountries();
-$directoryRegions   = $this->getDirectoryRegionsByCountryCode($defaultCountryCode);
-$iplocationRegions  = $this->getNotConnectedIplocationRegionsByCountryCode($defaultCountryCode);
+$directoryRegions   = $this->getDirectoryRegions($defaultCountryCode);
+$iplocationRegions  = $this->getNotConnectedIplocationRegions($defaultCountryCode);
 ?>
 
 <h2><?php echo $this->__('Connect the regions'); ?></h2>
@@ -35,7 +35,7 @@ $iplocationRegions  = $this->getNotConnectedIplocationRegionsByCountryCode($defa
 
             <ul class="location-management-regions-directory">
                 <?php foreach ($directoryRegions as $region): ?>
-                    <?php $ipregions = $this->getIplocationRegionsByDirectoryRegionId($region['region_id']); ?>
+                    <?php $ipregions = $this->getIplocationRegions($region['region_id']); ?>
 
                     <li id="directory-region-<?php echo $region['region_id']; ?>" data-id="<?php echo $region['region_id']; ?>"
                         class="location-management-regions-directory_li <?php if ($ipregions) echo 'connected'; ?> not-selectable">

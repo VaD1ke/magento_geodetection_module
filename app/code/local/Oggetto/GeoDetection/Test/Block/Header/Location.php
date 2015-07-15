@@ -278,14 +278,14 @@ class Oggetto_GeoDetection_Test_Block_Header_Location extends EcomDev_PHPUnit_Te
      */
     protected function _mockLocationModelForGettingLocationDataByIp($ip, $locationData)
     {
-        $modelLocationMock = $this->getModelMock('oggetto_geodetection/location', ['getLocationByIp']);
+        $modelLocationMock = $this->getModelMock('oggetto_geodetection/location_fetcher', ['getLocationByIp']);
 
         $modelLocationMock->expects($this->once())
             ->method('getLocationByIp')
             ->with($ip)
             ->willReturn($locationData);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/location', $modelLocationMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/location_fetcher', $modelLocationMock);
     }
 
     /**

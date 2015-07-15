@@ -68,19 +68,18 @@ class Oggetto_GeoDetection_Block_Shipping_Calculator extends Mage_Core_Block_Tem
      *
      * @return array
      */
-    public function getDeliveryPriceAndTime()
+    public function calculateShipping()
     {
         /** @var Oggetto_GeoDetection_Helper_Data $helper */
         $helper = Mage::helper('oggetto_geodetection');
 
         $shippingMethods = $helper->getSelectedShippingMethods();
-        $product         = $helper->getCheapestSimpleProduct($this->_getProduct());
-        $requestData     = $helper->prepareDataForShippingRequest($product);
+
 
         /** @var Oggetto_GeoDetection_Model_Shipping_Handler $shippingHandler */
         $shippingHandler = Mage::getModel('oggetto_geodetection/shipping_handler');
 
-        $calculation = $shippingHandler->getShippingResults($shippingMethods, $requestData);
+        $calculation = $shippingHandler->getShippingResults($shippingMethods, $this->_getProduct());
 
         return $calculation;
     }

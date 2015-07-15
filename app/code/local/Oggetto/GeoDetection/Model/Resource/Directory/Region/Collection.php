@@ -23,23 +23,25 @@
  */
 
 /**
- * Location Model
+ * Directory region fetcher collection
  *
  * @category   Oggetto
  * @package    Oggetto_GeoDetection
  * @subpackage Model
  * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
  */
-class Oggetto_GeoDetection_Model_Location extends Mage_Core_Model_Abstract
+class Oggetto_GeoDetection_Model_Resource_Directory_Region_Collection
+    extends Mage_Directory_Model_Resource_Region_Collection
 {
     /**
-     * Init object
+     * Get regions
      *
-     * @return void
+     * @return $this
      */
-    public function _construct()
+    public function getRegions()
     {
-        parent::_construct();
-        $this->_init('oggetto_geodetection/location');
+        $this->addFieldToSelect(['region_id', 'default_name']);
+
+        return $this;
     }
 }

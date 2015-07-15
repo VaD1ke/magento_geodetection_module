@@ -35,13 +35,15 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
     /**
      * Get shipping results
      *
-     * @param array $methods     Methods
-     * @param array $requestData Request data
+     * @param array                      $methods Methods
+     * @param Mage_Catalog_Model_Product $product Product
      *
      * @return array
      */
-    public function getShippingResults($methods, $requestData)
+    public function getShippingResults($methods, $product)
     {
+        $requestData = $this->_prepareDataForRequest($this->_getCheapestSimpleProduct($product));
+
         $calculation = [];
 
         foreach ($methods as $methodCode) {
@@ -93,5 +95,96 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
         $request->setWebsiteId($data['website_id']);
 
         return $request;
+    }
+
+    /**
+     * Get cheapest simple product
+     *
+     * @param Mage_Catalog_Model_Product $product Product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _getCheapestSimpleProduct($product)
+    {
+        $typeId = $product->getTypeId();
+
+        $cheapestProduct = $product;
+
+        if ($typeId == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
+            /** @var Mage_Catalog_Model_Product_Type_Configurable $modelConfigurable */
+            $modelConfigurable = Mage::getModel('catalog/product_type_configurable');
+
+            $childProducts = $modelConfigurable->getUsedProductIds($product);
+
+            $cheapestProduct = $this->_getCheapestProduct($childProducts);
+        }
+
+        return $cheapestProduct;
+    }
+
+    /**
+     * Prepare data for shipping request
+     *
+     * @param Mage_Catalog_Model_Product $product Product
+     *
+     * @return mixed
+     */
+    protected function _prepareDataForRequest($product)
+    {
+        /** @var Mage_Core_Model_Cookie $cookieModel */
+        $cookieModel = Mage::getSingleton('core/cookie');
+
+        $locationCookie = $cookieModel->get(Oggetto_GeoDetection_Block_Header_Location::LOCATION_COOKIE_NAME);
+
+        $cookie = Mage::helper('oggetto_geodetection')->jsonDecode($locationCookie);
+
+        /** @var Mage_Directory_Model_Region $region */
+        $region = Mage::getModel('directory/region')->load($cookie['region_id']);
+
+        $requestData = [
+            'dest_city'         => $cookie['city'],
+            'dest_region'       => $region->getName(),
+            'dest_region_id'    => $cookie['region_id'],
+            'dest_country_id'   => $cookie['country'],
+            'product_weight'    => $product->getData('weight'),
+            'product_qty'       => Oggetto_GeoDetection_Block_Shipping_Calculator::FAKE_PRODUCTS_QTY,
+            'dest_postcode'     => Oggetto_GeoDetection_Block_Shipping_Calculator::FAKE_DEST_POSTCODE,
+            'package_value'     => $product->getData('price'),
+            'freemethod_weight' => $product->getData('weight'),
+            'website_id'        => Mage::app()->getWebsite()->getId(),
+            'store_id'          => Mage::app()->getStore()->getId(),
+        ];
+
+        return $requestData;
+    }
+
+
+    /**
+     * Get cheapest product
+     *
+     * @param array $productIds Product IDs
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    private function _getCheapestProduct($productIds)
+    {
+        /** @var Mage_Catalog_Model_Resource_Product_Collection $collection */
+        $collection = Mage::getModel('catalog/product')->getCollection();
+        $collection->addAttributeToFilter('entity_id', array('in' => $productIds))
+            ->addAttributeToSelect(['price', 'weight']);
+
+        /** @var Mage_Catalog_Model_Product $cheapestProduct */
+        $cheapestProduct = $collection->getFirstItem();
+
+        $price = $cheapestProduct->getFinalPrice();
+
+        /** @var Mage_Catalog_Model_Product $product */
+        foreach ($collection as $product) {
+            if ($product->getFinalPrice() < $price || is_null($price)) {
+                $cheapestProduct = $product;
+            }
+        }
+
+        return $cheapestProduct;
     }
 }
