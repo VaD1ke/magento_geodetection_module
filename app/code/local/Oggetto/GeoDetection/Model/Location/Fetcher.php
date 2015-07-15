@@ -95,14 +95,18 @@ class Oggetto_GeoDetection_Model_Location_Fetcher extends Mage_Core_Model_Abstra
      *
      * @return array
      */
-    public function getPopularLocationsByCountryCode($countryCode)
+    public function getPopularLocations($countryCode)
     {
         /** @var Oggetto_GeoDetection_Model_Resource_Location_Collection $collection */
         $collection = Mage::getResourceModel('oggetto_geodetection/location_collection');
 
         $locations = $collection->selectRegionsAndCities(
             Oggetto_GeoDetection_Model_System_Config_Source_Location_Cities::DEFAULT_CITIES_QTY_IN_SELECT
-        )->filterByCountryCode($countryCode)->orderByIpCount()->getData();
+        )->innerJoinWithRelations()
+         ->filterByCountryCode($countryCode)
+         ->groupByRegionAndCity()
+         ->orderByIpCount()
+         ->getData();
 
         $returnLocations = [];
 

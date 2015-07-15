@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Oggetto Geo Detection extension for Magento
@@ -23,32 +24,30 @@
  */
 
 /**
- * Helper Data
+ * Directory fetcher model test class
  *
  * @category   Oggetto
  * @package    Oggetto_GeoDetection
- * @subpackage Helper
+ * @subpackage Test
  * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
  */
-class Oggetto_GeoDetection_Helper_Data extends Mage_Core_Helper_Data
+class Oggetto_GeoDetection_Test_Model_Directory_Fetcher extends EcomDev_PHPUnit_Test_Case
 {
     /**
-     * Get selected shipping methods
+     * Model directory fetcher
      *
-     * @return array
+     * @var Oggetto_GeoDetection_Model_Directory_Fetcher
      */
-    public function getSelectedShippingMethods()
-    {
-        return explode(',', Mage::getStoreConfig('oggetto_geodetection_options/general/select_shipping'));
-    }
+    protected $_model = null;
 
     /**
-     * Get default city
+     * Set up initial variables
      *
-     * @return array
+     * @return void
      */
-    public function getDefaultCity()
+    protected function setUp()
     {
-        return explode('-', Mage::getStoreConfig('oggetto_geodetection_options/general/select_default_city'));
+        parent::setUp();
+        $this->_model = Mage::getModel('oggetto_geodetection/directory_fetcher');
     }
 }

@@ -113,10 +113,11 @@ class Oggetto_GeoDetection_Test_Block_Header_Location extends EcomDev_PHPUnit_Te
             ->method('set')
             ->with(
                 Oggetto_GeoDetection_Block_Header_Location::LOCATION_COOKIE_NAME,
-                $returnLocationJson, 0, '/', null, null, true
+                $returnLocationJson, 0, '/', null, null, false
             );
 
         $this->replaceByMock('model', 'core/cookie', $modelCookieMock);
+
 
         $helperMock = $this->getHelperMock('oggetto_geodetection', ['jsonEncode']);
 
@@ -153,7 +154,7 @@ class Oggetto_GeoDetection_Test_Block_Header_Location extends EcomDev_PHPUnit_Te
      *
      * @return void
      */
-    public function testReturnsNullFromGettingUserLocationIfIplocationsCollectionIsEmpty()
+    public function testReturnsNullFromGettingUserLocationIfIplocationsCollectionIsEmptyAndDefaultCityIsEmpty()
     {
         $ip = 123456;
         $locationData = [];
@@ -170,6 +171,15 @@ class Oggetto_GeoDetection_Test_Block_Header_Location extends EcomDev_PHPUnit_Te
             ->method('set');
 
         $this->replaceByMock('model', 'core/cookie', $modelCookieMock);
+
+
+        $helperDataMock = $this->getHelperMock('oggetto_geodetection', ['getDefaultCity']);
+
+        $helperDataMock->expects($this->once())
+            ->method('getDefaultCity')
+            ->willReturn([]);
+
+        $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
 
 
         $this->_mockCoreHttpHelperForGettingRemoteAddress($ip);
@@ -192,7 +202,6 @@ class Oggetto_GeoDetection_Test_Block_Header_Location extends EcomDev_PHPUnit_Te
             'city_name' => '-'
         ];
 
-
         $modelCookieMock = $this->getModelMock('core/cookie', ['get', 'set']);
 
         $modelCookieMock->expects($this->once())
@@ -205,6 +214,14 @@ class Oggetto_GeoDetection_Test_Block_Header_Location extends EcomDev_PHPUnit_Te
 
         $this->replaceByMock('model', 'core/cookie', $modelCookieMock);
 
+        $helperDataMock = $this->getHelperMock('oggetto_geodetection', ['getDefaultCity']);
+
+        $helperDataMock->expects($this->once())
+            ->method('getDefaultCity')
+            ->willReturn([]);
+
+        $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
+
 
         $this->_mockCoreHttpHelperForGettingRemoteAddress($ip);
 
@@ -212,6 +229,74 @@ class Oggetto_GeoDetection_Test_Block_Header_Location extends EcomDev_PHPUnit_Te
 
 
         $this->assertNull($this->_locationBlock->getUserLocation());
+    }
+
+    /**
+     * Return default if iplocations collection is empty and default city exists
+     *
+     * @return void
+     */
+    public function testReturnsDefaultLocationIfIplocationsCollectionIsEmptyAndDefaultCityExists()
+    {
+        $ip = 123456;
+        $locationData = [
+            'city_name' => '-'
+        ];
+
+        $defaultCity    = ['city', 'region'];
+        $defaultCountry = 'code';
+
+        $returnLocation  = [
+            'country'   => $defaultCountry,
+            'region_id' => $defaultCity[1],
+            'city'      => $defaultCity[0],
+        ];
+        $returnLocationJson = 'test';
+
+
+        $modelCookieMock = $this->getModelMock('core/cookie', ['get', 'set']);
+
+        $modelCookieMock->expects($this->once())
+            ->method('get')
+            ->with(Oggetto_GeoDetection_Block_Header_Location::LOCATION_COOKIE_NAME)
+            ->willReturn(false);
+
+        $modelCookieMock->expects($this->once())
+            ->method('set')
+            ->with(
+                Oggetto_GeoDetection_Block_Header_Location::LOCATION_COOKIE_NAME,
+                $returnLocationJson, 0, '/', null, null, false
+            );
+
+        $this->replaceByMock('model', 'core/cookie', $modelCookieMock);
+
+
+        $helperDataMock = $this->getHelperMock('oggetto_geodetection', [
+            'getDefaultCity', 'getDefaultCountry', 'jsonEncode'
+        ]);
+
+        $helperDataMock->expects($this->once())
+            ->method('getDefaultCity')
+            ->willReturn($defaultCity);
+
+        $helperDataMock->expects($this->once())
+            ->method('getDefaultCountry')
+            ->willReturn($defaultCountry);
+
+        $helperDataMock->expects($this->once())
+            ->method('jsonEncode')
+            ->with($returnLocation)
+            ->willReturn($returnLocationJson);
+
+        $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
+
+
+        $this->_mockCoreHttpHelperForGettingRemoteAddress($ip);
+
+        $this->_mockLocationModelForGettingLocationDataByIp($ip, $locationData);
+
+
+        $this->assertEquals($returnLocation, $this->_locationBlock->getUserLocation());
     }
 
     /**

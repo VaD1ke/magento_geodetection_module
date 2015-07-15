@@ -58,17 +58,30 @@ class Oggetto_GeoDetection_Block_Header_Location extends Mage_Page_Block_Html_He
             $location = $locationModel->getLocationByIp($ipAddress);
 
             if (!$location || $location['city_name'] == '-') {
-                return null;
+
+                $defaultCity = $helper->getDefaultCity();
+                if (!$defaultCity || !$defaultCity[0]) {
+                    return null;
+                }
+
+                $cookieData = [
+                    'country'   => $helper->getDefaultCountry(),
+                    'region_id' => $defaultCity[1],
+                    'city'      => $defaultCity[0],
+                ];
+
+            } else {
+
+                /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
+                $relationModel = Mage::getModel('oggetto_geodetection/location_relation');
+
+                $cookieData = [
+                    'country'   => $location['country_code'],
+                    'region_id' => $relationModel->getRegionIdByIplocationRegionName($location['region_name']),
+                    'city'      => $location['city_name']
+                ];
+
             }
-
-            /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
-            $relationModel = Mage::getModel('oggetto_geodetection/location_relation');
-
-            $cookieData = [
-                'country'   => $location['country_code'],
-                'region_id' => $relationModel->getRegionIdByIplocationRegionName($location['region_name']),
-                'city'      => $location['city_name']
-            ];
 
             $cookieModel->set(self::LOCATION_COOKIE_NAME, $helper->jsonEncode($cookieData), 0, '/', null, null, false);
 

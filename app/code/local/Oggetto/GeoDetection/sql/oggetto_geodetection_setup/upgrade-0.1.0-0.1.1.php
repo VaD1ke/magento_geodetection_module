@@ -21,7 +21,7 @@
  * @copyright  Copyright (C) 2015 Oggetto Web (http://oggettoweb.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-//die;
+
 /** @var Mage_Core_Model_Resource_Setup $this */
 
 $installer = $this;

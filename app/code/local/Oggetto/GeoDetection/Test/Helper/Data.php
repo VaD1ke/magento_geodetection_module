@@ -61,4 +61,16 @@ class Oggetto_GeoDetection_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case
     {
         $this->assertEquals(['test method', 'test method2'], $this->_helper->getSelectedShippingMethods());
     }
+
+    /**
+     * Return selected default city from store config
+     *
+     * @return void
+     *
+     * @loadFixture
+     */
+    public function testReturnsSelectedDefaultCityFromStoreConfig()
+    {
+        $this->assertEquals(['city', 'id'], $this->_helper->getDefaultCity());
+    }
 }

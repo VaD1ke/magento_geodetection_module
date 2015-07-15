@@ -1,0 +1,2 @@
+config:
+  default/oggetto_geodetection_options/general/select_default_city: city-id

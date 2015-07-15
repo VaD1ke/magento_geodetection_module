@@ -148,4 +148,19 @@ class Oggetto_GeoDetection_Model_Resource_Location_Collection extends Mage_Core_
 
         return $this;
     }
+
+    /**
+     * Inner join with relations
+     *
+     * @return $this
+     */
+    public function innerJoinWithRelations()
+    {
+        $this->getSelect()->joinInner(
+            ['rel' => $this->getTable('oggetto_geodetection/table_region_iplocations_relation')],
+             'main_table.region_name = rel.iplocation_region'
+        );
+
+        return $this;
+    }
 }
