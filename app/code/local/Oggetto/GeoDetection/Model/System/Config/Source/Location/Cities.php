@@ -60,10 +60,10 @@ class Oggetto_GeoDetection_Model_System_Config_Source_Location_Cities
 
         foreach ($locations as $region => $location) {
             if (array_key_exists(0, $location) && $location[0]) {
-                $regionId = $relationModel->getIdByIplocationRegionName($region);
+                $regionId = $relationModel->getRegionIdByIplocationRegionName($region);
 
                 $cities[] = [
-                    'value' => $location[0] . '-' . $regionId,
+                    'value' => $location[0] . ':' . $regionId,
                     'label' => $location[0],
                 ];
             }

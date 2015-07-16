@@ -49,6 +49,6 @@ class Oggetto_GeoDetection_Helper_Data extends Mage_Core_Helper_Data
      */
     public function getDefaultCity()
     {
-        return explode('-', Mage::getStoreConfig('oggetto_geodetection_options/general/select_default_city'));
+        return explode(':', Mage::getStoreConfig('oggetto_geodetection_options/general/select_default_city'));
     }
 }
