@@ -1,4 +1,3 @@
-<h1>Geo Detection Management</h1>
 <?php
 /** @var Oggetto_GeoDetection_Block_Adminhtml_Management $this */
 
@@ -12,6 +11,7 @@ $directoryRegions   = $this->getDirectoryRegions($defaultCountryCode);
 $iplocationRegions  = $this->getNotConnectedIplocationRegions($defaultCountryCode);
 ?>
 
+<h1><?php echo $this->__('Geo Detection Management'); ?></h1>
 <h2><?php echo $this->__('Connect the regions'); ?></h2>
 <h4><?php echo $this->__('Drag iplocation region from right column and drop it to another region in left column') ?></h4>
 

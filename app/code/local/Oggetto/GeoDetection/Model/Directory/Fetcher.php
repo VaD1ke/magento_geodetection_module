@@ -73,7 +73,7 @@ class Oggetto_GeoDetection_Model_Directory_Fetcher
         $returnLocation = [];
 
         foreach ($locationsData as $region => $location) {
-            $directoryRegion = $this->_getDirectoryRegionByIplocationRegionName($region);
+            $directoryRegion = $this->_getRegionByIplocationRegionName($region);
 
             if ($directoryRegion) {
                 foreach ($location as $city) {
@@ -86,25 +86,6 @@ class Oggetto_GeoDetection_Model_Directory_Fetcher
         return $returnLocation;
     }
 
-    /**
-     * Get directory region ID by name
-     *
-     * @param string $regionName Region Name
-     *
-     * @return null|mixed
-     */
-    public function getDirectoryRegionIdByName($regionName)
-    {
-        /** @var Mage_Directory_Model_Resource_Region_Collection $collection */
-        $collection = Mage::getModel('directory/region')->getResourceCollection();
-        $collection->addRegionNameFilter($regionName)->addFieldToSelect(['region_id'])->load();
-
-        $data = $collection->getData();
-        if (!$data) {
-            return null;
-        }
-        return $data[0]['region_id'];
-    }
 
     /**
      * Get directory region by iplocation region name
@@ -113,34 +94,7 @@ class Oggetto_GeoDetection_Model_Directory_Fetcher
      *
      * @return null|string
      */
-    public function getDirectoryRegionByIplocationRegionName($regionName)
-    {
-        /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
-        $relationModel = Mage::getModel('oggetto_geodetection/location_relation');
-
-        $directoryRegionId = $relationModel->getRegionIdByIplocationRegionName($regionName);
-
-        if (!$directoryRegionId) {
-            return null;
-        }
-
-        $data = Mage::getModel('directory/region')->load($directoryRegionId)->getData();
-
-        if (!$data) {
-            return null;
-        }
-
-        return $data;
-    }
-
-    /**
-     * Get directory region by iplocation region name
-     *
-     * @param string $regionName Region name
-     *
-     * @return null|string
-     */
-    protected function _getDirectoryRegionByIplocationRegionName($regionName)
+    protected function _getRegionByIplocationRegionName($regionName)
     {
         /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
         $relationModel = Mage::getModel('oggetto_geodetection/location_relation');

@@ -50,4 +50,42 @@ class Oggetto_GeoDetection_Test_Model_Directory_Fetcher extends EcomDev_PHPUnit_
         parent::setUp();
         $this->_model = Mage::getModel('oggetto_geodetection/directory_fetcher');
     }
+
+    /**
+     * Convert iplocation regions to directory regions
+     *
+     * @return void
+     */
+    public function testConvertsIpLocationRegionsToDirectoryRegions()
+    {
+        $locationData = [
+            'ip_region' => [ 'city1', 'city2', ]
+        ];
+
+        $dirLocation = [
+            'region_id'    => '123',
+            'default_name' => 'name1',
+        ];
+
+        $returnLocation = [
+            $dirLocation['default_name'] => [
+                'cities' => $locationData['ip_region'],
+                'id'     => $dirLocation['region_id'],
+            ]
+
+        ];
+
+        $modelFetcherMock = $this->getModelMock(
+            'oggetto_geodetection/directory_fetcher', ['_getRegionByIplocationRegionName']
+        );
+
+        $modelFetcherMock->expects($this->once())
+            ->method('_getRegionByIplocationRegionName')
+            ->with('ip_region')
+            ->willReturn($dirLocation);
+
+        $this->replaceByMock('model', 'oggetto_geodetection/directory_fetcher', $modelFetcherMock);
+
+        $this->assertEquals($returnLocation, $modelFetcherMock->convertLocationToDirectoryRegions($locationData));
+    }
 }
