@@ -51,7 +51,7 @@ class Oggetto_GeoDetection_Model_Location_Fetcher extends Mage_Core_Model_Abstra
         /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
         $relationModel = Mage::getModel('oggetto_geodetection/location_relation');
 
-        if ( $relationModel->isRegionConnected($data['region_name']) ) {
+        if ( array_key_exists('region_name', $data) && $relationModel->isRegionConnected($data['region_name']) ) {
             return $data;
         }
 

@@ -1,6 +1,7 @@
 <?php /** @var Oggetto_GeoDetection_Block_Header_Location $this */ ?>
-<?php $_location = $this->getUserLocation();
-    if ($this->isEnabled()):?>
+
+<?php if ($this->isEnabled()):
+    $_location = $this->getUserLocation();?>
 
     <div id="geo_detection">
         <h4>Ваш город: </h4>
