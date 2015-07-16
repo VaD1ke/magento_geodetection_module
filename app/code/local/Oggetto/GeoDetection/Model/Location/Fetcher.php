@@ -61,11 +61,12 @@ class Oggetto_GeoDetection_Model_Location_Fetcher extends Mage_Core_Model_Abstra
     /**
      * Get regions and cities by country code
      *
-     * @param string $countryCode Country code
+     * @param string $countryCode   Country code
+     * @param bool   $onlyConnected Select only connected with directory regions
      *
      * @return array
      */
-    public function getRegionsAndCities($countryCode = null)
+    public function getRegionsAndCities($countryCode = null, $onlyConnected = false)
     {
         /** @var Oggetto_GeoDetection_Model_Resource_Location_Collection $collection */
         $collection = Mage::getResourceModel('oggetto_geodetection/location_collection');
@@ -76,6 +77,10 @@ class Oggetto_GeoDetection_Model_Location_Fetcher extends Mage_Core_Model_Abstra
 
         if ($countryCode) {
             $collection->filterByCountryCode($countryCode);
+        }
+
+        if ($onlyConnected) {
+            $collection->innerJoinWithRelations();
         }
         $locations = $collection->getData();
 

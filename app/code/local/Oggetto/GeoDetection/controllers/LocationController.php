@@ -60,7 +60,7 @@ class Oggetto_GeoDetection_LocationController extends Mage_Core_Controller_Front
         $model = Mage::getModel('oggetto_geodetection/location_fetcher');
 
         try {
-            $locations = $model->getRegionsAndCities($countryCode);
+            $locations = $model->getRegionsAndCities($countryCode, true);
             $locations = $fetcherModel->convertLocationToDirectoryRegions($locations);
             $locations = $helper->jsonEncode($locations);
 

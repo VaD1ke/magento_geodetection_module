@@ -95,7 +95,8 @@ class Oggetto_GeoDetection_Model_Location_Relation extends Mage_Core_Model_Abstr
 
         $data = $collection->getRegionIdByIplocationRegionName($iplocationRegionName)->getFirstItem()->getData();
 
-        return $data['directory_region_id'];
+
+        return array_key_exists('directory_region_id', $data) ? $data['directory_region_id'] : null;
     }
 
     /**

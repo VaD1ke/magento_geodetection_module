@@ -260,12 +260,15 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
         $collectionLocationsMock = $this->getResourceModelMock('oggetto_geodetection/location_collection', [
             'selectRegionsAndCities', 'filterByCountryCode',
             'groupByRegionAndCity', 'orderRegionNameAndByIpCount',
-            'getData'
+            'innerJoinWithRelations', 'getData'
         ]);
 
         $collectionLocationsMock->expects($this->once())
             ->method('selectRegionsAndCities')
             ->willReturnSelf();
+
+        $collectionLocationsMock->expects($this->never())
+            ->method('innerJoinWithRelations');
 
         $collectionLocationsMock->expects($this->once())
             ->method('filterByCountryCode')
@@ -287,6 +290,70 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
         $this->replaceByMock('resource_model', 'oggetto_geodetection/location_collection', $collectionLocationsMock);
 
         $this->assertEquals($regionsAndCities, $this->_model->getRegionsAndCities($countryCode));
+    }
+
+    /**
+     * Return regions and cities from collection
+     *
+     * @return void
+     */
+    public function testReturnsOnlyConnectedRegionsAndCitiesByCountryCodeFromCollection()
+    {
+        $data = [
+            [
+                'region_name' => 'test1',
+                'city_name'   => 'testC1'
+            ],
+            [
+                'region_name' => 'test2',
+                'city_name'   => 'testC3'
+            ],
+            [
+                'region_name' => 'test1',
+                'city_name'   => 'testC2'
+            ],
+        ];
+        $regionsAndCities = [
+            'test1' => ['testC1', 'testC2'],
+            'test2' => ['testC3']
+        ];
+
+        $countryCode = 'code';
+
+        $collectionLocationsMock = $this->getResourceModelMock('oggetto_geodetection/location_collection', [
+            'selectRegionsAndCities', 'filterByCountryCode',
+            'groupByRegionAndCity', 'orderRegionNameAndByIpCount',
+            'innerJoinWithRelations', 'getData'
+        ]);
+
+        $collectionLocationsMock->expects($this->once())
+            ->method('selectRegionsAndCities')
+            ->willReturnSelf();
+
+        $collectionLocationsMock->expects($this->once())
+            ->method('filterByCountryCode')
+            ->with($countryCode)
+            ->willReturnSelf();
+
+        $collectionLocationsMock->expects($this->once())
+            ->method('innerJoinWithRelations')
+            ->willReturnSelf();
+
+        $collectionLocationsMock->expects($this->once())
+            ->method('groupByRegionAndCity')
+            ->willReturnSelf();
+
+        $collectionLocationsMock->expects($this->once())
+            ->method('orderRegionNameAndByIpCount')
+            ->willReturnSelf();
+
+        $collectionLocationsMock->expects($this->once())
+            ->method('getData')
+            ->willReturn($data);
+
+        $this->replaceByMock('resource_model', 'oggetto_geodetection/location_collection', $collectionLocationsMock);
+
+        $this->assertEquals($regionsAndCities, $this->_model->getRegionsAndCities($countryCode, true));
     }
 
     /**

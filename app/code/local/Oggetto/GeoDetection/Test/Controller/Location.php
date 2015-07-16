@@ -59,7 +59,7 @@ class Oggetto_GeoDetection_Test_Controller_Location extends EcomDev_PHPUnit_Test
 
         $modelLocationMock->expects($this->once())
             ->method('getRegionsAndCities')
-            ->with($post['country_code'])
+            ->with($post['country_code'], true)
             ->willReturn($regionsAndCities);
 
         $this->replaceByMock('model', 'oggetto_geodetection/location_fetcher', $modelLocationMock);
