@@ -11,11 +11,19 @@ $directoryRegions   = $this->getDirectoryRegions($defaultCountryCode);
 $iplocationRegions  = $this->getNotConnectedIplocationRegions($defaultCountryCode);
 ?>
 
-<h1><?php echo $this->__('Geo Detection Management'); ?></h1>
-<h2><?php echo $this->__('Connect the regions'); ?></h2>
+<div class="content-header">
+    <h3 class="icon-head"><?php echo $this->__('Geo Detection Management'); ?></h3>
+    <p class="form-buttons">
+        <button class="scalable save geo-save" onclick="jQuery('#location-relation-form').submit();">
+            <span><?php echo $this->__('Save connections'); ?></span>
+        </button>
+
+    </p>
+</div>
+
 <h4><?php echo $this->__('Drag iplocation region from right column and drop it to another region in left column') ?></h4>
 
-<form name="location-relation-form" action="<?php echo $this->getUrlForRelationsSaving(); ?>" method="post">
+<form id="location-relation-form" name="location-relation-form" action="<?php echo $this->getUrlForRelationsSaving(); ?>" method="post">
     <input name="form_key" type="hidden" value="<?php echo $this->getFormKey(); ?>" />
     <label>
         <select id="country-selection" name="data[country_code]">
@@ -28,7 +36,7 @@ $iplocationRegions  = $this->getNotConnectedIplocationRegions($defaultCountryCod
         </select>
     </label>
 
-    <input type="submit" value="<?php echo $this->__('save connections'); ?>"/>
+
     <div class="location-management">
         <div class="location-management-regions"
              data-form-key="<?php echo $this->getFormKey(); ?>">

@@ -1,5 +1,7 @@
 .location-management {
     padding: 10px 0 20px 100px;
+    margin-left: auto ;
+    margin-right: auto ;
     width: 650px;
     overflow: auto;
 
@@ -43,7 +45,8 @@
 }
 
 .connected {
-    background-color: rgba(46, 204, 113, 0.8);
+    background-color: rgba(230, 126, 34, .9);
+    border-color: #ecf0f1;
     color: #fefefe;
     font-size: 14px;
     font-weight: bolder;
