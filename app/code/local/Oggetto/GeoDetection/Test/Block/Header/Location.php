@@ -130,7 +130,7 @@ class Oggetto_GeoDetection_Test_Block_Header_Location extends EcomDev_PHPUnit_Te
 
 
         $relationModelMock = $this->getModelMock(
-            'oggetto_geodetection/location_relation', ['getRegionIdByIplocationRegionName']
+            'oggetto_geodetection/location_relation_fetcher', ['getRegionIdByIplocationRegionName']
         );
 
         $relationModelMock->expects($this->once())
@@ -138,7 +138,7 @@ class Oggetto_GeoDetection_Test_Block_Header_Location extends EcomDev_PHPUnit_Te
             ->with($locationData['region_name'])
             ->willReturn($returnLocation['region_id']);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/location_relation', $relationModelMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/location_relation_fetcher', $relationModelMock);
 
         $this->_mockCoreHttpHelperForGettingRemoteAddress($ip);
 
@@ -321,14 +321,16 @@ class Oggetto_GeoDetection_Test_Block_Header_Location extends EcomDev_PHPUnit_Te
 
         $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
 
-        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation', ['isCollectionEmpty']);
+        $modelRelationMock = $this->getModelMock(
+            'oggetto_geodetection/location_relation_fetcher', ['isCollectionEmpty']
+        );
 
         $modelRelationMock->expects($this->once())
             ->method('isCollectionEmpty')
             ->with($countryCode)
             ->willReturn($value);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/location_relation', $modelRelationMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/location_relation_fetcher', $modelRelationMock);
 
         $this->assertEquals($this->expected()->getData($status), $this->_locationBlock->isEnabled());
     }

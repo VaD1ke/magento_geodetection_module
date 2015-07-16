@@ -128,14 +128,16 @@ class Oggetto_GeoDetection_Test_Block_Adminhtml_Management extends EcomDev_PHPUn
         $directoryRegionId = '123';
         $regions = ['test'];
 
-        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation', []);
+        $modelRelationMock = $this->getModelMock(
+            'oggetto_geodetection/location_relation_fetcher', ['getIplocationRegionsByDirectoryRegionId']
+        );
 
         $modelRelationMock->expects($this->once())
             ->method('getIplocationRegionsByDirectoryRegionId')
             ->with($directoryRegionId)
             ->willReturn($regions);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/location_relation', $modelRelationMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/location_relation_fetcher', $modelRelationMock);
 
         $this->assertEquals(
             $regions, $this->_managementBlock->getIplocationRegions($directoryRegionId)

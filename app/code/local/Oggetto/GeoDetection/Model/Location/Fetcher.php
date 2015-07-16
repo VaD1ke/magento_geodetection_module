@@ -48,8 +48,8 @@ class Oggetto_GeoDetection_Model_Location_Fetcher extends Mage_Core_Model_Abstra
 
         $data = $collection->getFirstItem()->getData();
 
-        /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
-        $relationModel = Mage::getModel('oggetto_geodetection/location_relation');
+        /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
+        $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
 
         if ( array_key_exists('region_name', $data) && $relationModel->isRegionConnected($data['region_name']) ) {
             return $data;
@@ -160,8 +160,8 @@ class Oggetto_GeoDetection_Model_Location_Fetcher extends Mage_Core_Model_Abstra
         /** @var Oggetto_GeoDetection_Model_Resource_Location_Collection $collection */
         $collection = Mage::getResourceModel('oggetto_geodetection/location_collection');
 
-        /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
-        $relationModel = Mage::getModel('oggetto_geodetection/location_relation');
+        /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
+        $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
 
         $regions = $collection->selectRegions()->filterRegionsNotIn(
             $relationModel->getAllIplocationRegionNamesByCountryCode($countryCode)

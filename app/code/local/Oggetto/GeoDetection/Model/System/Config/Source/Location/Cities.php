@@ -47,8 +47,8 @@ class Oggetto_GeoDetection_Model_System_Config_Source_Location_Cities
         /** @var Oggetto_GeoDetection_Model_Location_Fetcher $locationModel */
         $locationModel = Mage::getModel('oggetto_geodetection/location_fetcher');
 
-        /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
-        $relationModel = Mage::getModel('oggetto_geodetection/location_relation');
+        /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
+        $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
 
         /** @var Oggetto_GeoDetection_Helper_Data $helper */
         $helper = Mage::helper('oggetto_geodetection');

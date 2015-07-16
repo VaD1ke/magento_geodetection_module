@@ -60,8 +60,8 @@ class Oggetto_GeoDetection_Adminhtml_Config_LocationController extends Mage_Admi
         $post = $this->getRequest()->getPost('data');
 
 
-        /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
-        $relationModel = Mage::getModel('oggetto_geodetection/location_relation');
+        /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
+        $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
 
         $relationModel->clearByCountryCode($post['country_code']);
 

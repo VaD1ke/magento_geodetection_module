@@ -90,7 +90,7 @@ class Oggetto_GeoDetection_Test_Controller_Adminhtml_Config_Location
         ];
 
 
-        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation', [
+        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation_fetcher', [
             'clearByCountryCode', 'insertMultiple'
         ]);
 
@@ -102,7 +102,7 @@ class Oggetto_GeoDetection_Test_Controller_Adminhtml_Config_Location
             ->method('insertMultiple')
             ->with($savingData);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/location_relation', $modelRelationMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/location_relation_fetcher', $modelRelationMock);
 
 
         $this->getRequest()->setMethod('POST');
@@ -135,7 +135,7 @@ class Oggetto_GeoDetection_Test_Controller_Adminhtml_Config_Location
             '2' => [ 'directory_region_id' => '2', 'iplocation_region' => 'name4' ],
         ];
 
-        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation', [
+        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation_fetcher', [
             'clearByCountryCode', 'insertMultiple'
         ]);
 
@@ -148,7 +148,7 @@ class Oggetto_GeoDetection_Test_Controller_Adminhtml_Config_Location
             ->with($savingData)
             ->willThrowException(new Exception);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/location_relation', $modelRelationMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/location_relation_fetcher', $modelRelationMock);
 
 
         $sessionSingletonMock = $this->getModelMock('adminhtml/session', ['addError']);

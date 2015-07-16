@@ -82,14 +82,14 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
         );
 
 
-        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation', ['isRegionConnected']);
+        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation_fetcher', ['isRegionConnected']);
 
         $modelRelationMock->expects($this->once())
             ->method('isRegionConnected')
             ->with($locationData['region_name'])
             ->willReturn(true);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/location_relation', $modelRelationMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/location_relation_fetcher', $modelRelationMock);
 
 
         $this->assertEquals($locationData, $this->_model->getLocationByIp($ip));
@@ -127,14 +127,14 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
         );
 
 
-        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation', ['isRegionConnected']);
+        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation_fetcher', ['isRegionConnected']);
 
         $modelRelationMock->expects($this->once())
             ->method('isRegionConnected')
             ->with($locationData['region_name'])
             ->willReturn(false);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/location_relation', $modelRelationMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/location_relation_fetcher', $modelRelationMock);
 
 
         $this->assertNull($this->_model->getLocationByIp($ip));
@@ -414,7 +414,7 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
         $returnData = [ 'test1', 'test2' ];
 
         $modelRelationMock = $this->getModelMock(
-            'oggetto_geodetection/location_relation', [ 'getAllIplocationRegionNamesByCountryCode' ]
+            'oggetto_geodetection/location_relation_fetcher', [ 'getAllIplocationRegionNamesByCountryCode' ]
         );
 
         $modelRelationMock->expects($this->once())
@@ -422,7 +422,7 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
             ->with($countryCode)
             ->willReturn($allIplocationRegions);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/location_relation', $modelRelationMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/location_relation_fetcher', $modelRelationMock);
 
 
         $collectionLocationMock = $this->getResourceModelMock('oggetto_geodetection/location_collection', [

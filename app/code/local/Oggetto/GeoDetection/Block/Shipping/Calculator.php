@@ -91,8 +91,8 @@ class Oggetto_GeoDetection_Block_Shipping_Calculator extends Mage_Core_Block_Tem
      */
     public function isEnabled()
     {
-        /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
-        $relationModel = Mage::getModel('oggetto_geodetection/location_relation');
+        /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
+        $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
 
         return !$relationModel->isCollectionEmpty(Mage::helper('oggetto_geodetection')->getDefaultCountry());
     }

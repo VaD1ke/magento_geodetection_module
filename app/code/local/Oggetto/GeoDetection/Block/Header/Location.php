@@ -72,8 +72,8 @@ class Oggetto_GeoDetection_Block_Header_Location extends Mage_Page_Block_Html_He
 
             } else {
 
-                /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
-                $relationModel = Mage::getModel('oggetto_geodetection/location_relation');
+                /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
+                $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
 
                 $cookieData = [
                     'country'   => $location['country_code'],
@@ -98,8 +98,8 @@ class Oggetto_GeoDetection_Block_Header_Location extends Mage_Page_Block_Html_He
      */
     public function isEnabled()
     {
-        /** @var Oggetto_GeoDetection_Model_Location_Relation $relationModel */
-        $relationModel = Mage::getModel('oggetto_geodetection/location_relation');
+        /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
+        $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
 
         return !$relationModel->isCollectionEmpty(Mage::helper('oggetto_geodetection')->getDefaultCountry());
     }

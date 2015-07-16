@@ -84,8 +84,8 @@ class Oggetto_GeoDetection_Block_Adminhtml_Management extends Mage_Adminhtml_Blo
      */
     public function getIplocationRegions($directoryRegionId)
     {
-        /** @var Oggetto_GeoDetection_Model_Location_Relation $model */
-        $model = Mage::getModel('oggetto_geodetection/location_relation');
+        /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $model */
+        $model = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
 
         return $model->getIplocationRegionsByDirectoryRegionId($directoryRegionId);
     }
