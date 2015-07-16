@@ -25,6 +25,9 @@
 /**
  * Block class for Geo Detection management
  *
+ * @method Oggetto_GeoDetection_Block_Adminhtml_Management setCountryCode(string $countryCode)
+ * @method string getCountryCode()
+ *
  * @category   Oggetto
  * @package    Oggetto_GeoDetection
  * @subpackage Block

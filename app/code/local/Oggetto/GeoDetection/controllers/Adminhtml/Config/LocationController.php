@@ -42,9 +42,7 @@ class Oggetto_GeoDetection_Adminhtml_Config_LocationController extends Mage_Admi
         $countryCode = $this->getRequest()->getParam('country_code');
 
         $this->loadLayout();
-        $this->getLayout()->getBlock('content.geodetection_management')->assign([
-            'countryCode' => $countryCode,
-        ]);
+        $this->getLayout()->getBlock('content.geodetection_management')->setCountryCode($countryCode);
         $this->renderLayout();
     }
 

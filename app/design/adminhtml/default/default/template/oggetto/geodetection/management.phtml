@@ -1,6 +1,7 @@
 <?php
 /** @var Oggetto_GeoDetection_Block_Adminhtml_Management $this */
 
+$countryCode = $this->getCountryCode();
 if (!$countryCode) {
     $defaultCountryCode = $this->getDefaultCountry();
 } else {
