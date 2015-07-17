@@ -1,0 +1,8 @@
+locations:
+  - id: 2
+    ip_from: 11111111
+    ip_to: 22222222
+    country_code: code2
+    country_name: country2
+    region_name: region2
+    city_name: city2

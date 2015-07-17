@@ -1,0 +1,21 @@
+locations:
+  - id: 1
+    ip_from: 1111111
+    ip_to: 2422222
+    country_code: code1
+    country_name: country1
+    region_name: region1
+    city_name: city1
+    id: 1
+    directory_region_id: 123
+    iplocation_region: region1
+  - id: 2
+    ip_from: 11111111
+    ip_to: 22222222
+    country_code: code2
+    country_name: country2
+    region_name: region2
+    city_name: city2
+    id: 2
+    directory_region_id: 234
+    iplocation_region: region2

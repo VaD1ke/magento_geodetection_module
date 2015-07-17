@@ -1,3 +1,6 @@
 "Geo Detection Management", "Управление определением месторасположения"
 "Drag iplocation region from right column and drop it to another region in left column", "Возьмите регион (из таблицы с IP) из правой колонки и перетащите на регион в левой колонке"
-"Save connections", "Сохранить связи"
+"Save connections", "Сохранить связи",
+"Geo Detection", "Определение месторасположения",
+"Select default city", "Выберите город по умолчанию",
+"Select shipping methods", "Выберите методы доставки"

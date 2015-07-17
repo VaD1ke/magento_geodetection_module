@@ -49,3 +49,10 @@ tables:
       country_name: country3
       region_name: region3
       city_name: city4
+  oggetto_geodetection/table_region_iplocations_relation:
+    - id: 1
+      directory_region_id: 123
+      iplocation_region: region1
+    - id: 2
+      directory_region_id: 234
+      iplocation_region: region2

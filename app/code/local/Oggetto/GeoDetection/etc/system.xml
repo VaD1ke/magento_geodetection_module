@@ -30,7 +30,7 @@ please refer to http://www.magentocommerce.com for more information.
     </tabs>
     <sections>
         <oggetto_geodetection_options translate="label">
-            <label>Geo Detection Config Options</label>
+            <label>Geo Detection</label>
             <tab>oggetto_extensions_config</tab>
             <frontend_type>text</frontend_type>
             <sort_order>10</sort_order>

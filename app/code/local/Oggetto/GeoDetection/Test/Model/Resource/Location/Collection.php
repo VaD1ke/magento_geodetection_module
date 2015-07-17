@@ -106,4 +106,84 @@ class Oggetto_GeoDetection_Test_Model_Resource_Location_Collection extends EcomD
             $this->_collection->selectRegions()->getData()
         );
     }
+
+    /**
+     * Filter by country code
+     *
+     * @return void
+     *
+     * @loadFixture testLocationsCollection
+     */
+    public function testFiltersByCountryCode()
+    {
+        $countryCode = 'code3';
+
+        $this->assertEquals(
+            $this->expected('locations')->getData(),
+            $this->_collection->filterByCountryCode($countryCode)->getData()
+        );
+    }
+
+    /**
+     * Filter region names not in established array
+     *
+     * @return void
+     *
+     * @loadFixture testLocationsCollection
+     */
+    public function testFiltersRegionNamesNotInEstablishedArray()
+    {
+        $regionsArray = [ 'region1', 'region3' ];
+
+        $this->assertEquals(
+            $this->expected('locations')->getData(),
+            $this->_collection->filterRegionsNotIn($regionsArray)->getData()
+        );
+    }
+
+    /**
+     * Join regions relation table by region name
+     *
+     * @return void
+     *
+     * @loadFixture testLocationsCollection
+     */
+    public function testJoinsRegionsRelationTableByRegionName()
+    {
+        $this->assertEquals(
+            $this->expected('locations')->getData(),
+            $this->_collection->innerJoinWithRelations()->getData()
+        );
+    }
+
+    /**
+     * Group by region and city names order by ip count
+     *
+     * @return void
+     *
+     * @loadFixture testLocationsCollection
+     */
+    public function testGroupByRegionAndCityNamesAndOrderByIpCount()
+    {
+        $this->assertEquals(
+            $this->expected('locations')->getData(),
+            $this->_collection->selectRegionsAndCities()->groupByRegionAndCity()->orderByIpCount()->getData()
+        );
+    }
+
+    /**
+     * Group by region and city names order by ip count and region name
+     *
+     * @return void
+     *
+     * @loadFixture testLocationsCollection
+     */
+    public function testGroupByRegionAndCityNamesAndOrderByIpCountAndRegionName()
+    {
+        $this->assertEquals(
+            $this->expected('locations')->getData(),
+            $this->_collection->selectRegionsAndCities()->groupByRegionAndCity()
+                              ->orderRegionNameAndByIpCount()->getData()
+        );
+    }
 }

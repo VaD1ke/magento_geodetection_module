@@ -1,0 +1,11 @@
+locations:
+  - region_name: region3
+    city_name: city3
+  - region_name: region3
+    city_name: city4
+  - region_name: region1
+    city_name: city1
+  - region_name: region2
+    city_name: city2
+  - region_name: region3
+    city_name: city5
