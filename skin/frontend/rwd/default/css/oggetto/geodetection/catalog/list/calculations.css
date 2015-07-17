@@ -17,3 +17,25 @@
     font-style: italic;
     font-size: 12px;
 }
+
+.shipping-calculations-title_span{
+    position: relative;
+    padding: 11px;
+}
+
+.shipping-calculations-title_span::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+
+    top: 13px;
+    left: 0;
+    position: absolute;
+
+    background: url('../../../../../images/oggetto/geodetection/list-arrow.png');
+    background-size: cover;
+}
+
+.shipping-calculations-title_span.open::before {
+    transform: rotate(90deg);
+}

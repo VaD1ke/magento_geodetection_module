@@ -55,6 +55,10 @@
             [
                 "skin/frontend/rwd/default/js/oggetto/geodetection", 
                 "skin/frontend/rwd/default/js/oggetto/geodetection"
+            ],
+            [
+                "skin/frontend/rwd/default/images/oggetto/geodetection", 
+                "skin/frontend/rwd/default/images/oggetto/geodetection"
             ]
         ]
     }

@@ -25,5 +25,6 @@
 jQuery( function ($) {
     $('#shipping-calculations-title').on('click', '.shipping-calculations-title_span', function() {
         $(this).closest('#shipping-calculations-title').next().toggle();
+        $(this).toggleClass('open');
     });
 });
