@@ -60,7 +60,7 @@ class Oggetto_GeoDetection_Block_Adminhtml_Management extends Mage_Adminhtml_Blo
         /** @var Oggetto_GeoDetection_Model_Location_Fetcher $model */
         $model = Mage::getModel('oggetto_geodetection/location_fetcher');
 
-        return $model->getNotConnectedRegionsByCountryCode($countryCode);
+        return $model->getNotConnectedRegions($countryCode);
     }
 
     /**

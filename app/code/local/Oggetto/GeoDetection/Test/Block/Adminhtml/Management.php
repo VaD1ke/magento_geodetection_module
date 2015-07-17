@@ -81,11 +81,11 @@ class Oggetto_GeoDetection_Test_Block_Adminhtml_Management extends EcomDev_PHPUn
         $countryCode = 'test';
 
         $modelLocationMock = $this->getModelMock(
-            'oggetto_geodetection/location_fetcher', ['getNotConnectedRegionsByCountryCode']
+            'oggetto_geodetection/location_fetcher', ['getNotConnectedRegions']
         );
 
         $modelLocationMock->expects($this->once())
-            ->method('getNotConnectedRegionsByCountryCode')
+            ->method('getNotConnectedRegions')
             ->with($countryCode)
             ->willReturn($regions);
 

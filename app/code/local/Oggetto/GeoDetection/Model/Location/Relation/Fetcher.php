@@ -115,7 +115,7 @@ class Oggetto_GeoDetection_Model_Location_Relation_Fetcher
      *
      * @return array
      */
-    public function getAllIplocationRegionNamesByCountryCode($countryCode)
+    public function getAllIplocationRegionNames($countryCode)
     {
         /** @var Oggetto_GeoDetection_Model_Resource_Location_Relation_Collection $collection */
         $collection = Mage::getResourceModel('oggetto_geodetection/location_relation_collection');

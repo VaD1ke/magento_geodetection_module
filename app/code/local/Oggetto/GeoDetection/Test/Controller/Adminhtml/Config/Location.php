@@ -51,6 +51,14 @@ class Oggetto_GeoDetection_Test_Controller_Adminhtml_Config_Location
      */
     public function testLoadsAndRendersLayoutForDisplayingRegionsConnection()
     {
+        $blockManagementMock = $this->getBlockMock('oggetto_geodetection/adminhtml_management', ['setCountryCode']);
+
+        $blockManagementMock->expects($this->once())
+            ->method('setCountryCode');
+
+        $this->replaceByMock('block', 'oggetto_geodetection/adminhtml_management', $blockManagementMock);
+
+
         $this->dispatch('adminhtml/config_location/index');
 
         $this->_assertRequestsDispatchForwardRouteAndController('index');

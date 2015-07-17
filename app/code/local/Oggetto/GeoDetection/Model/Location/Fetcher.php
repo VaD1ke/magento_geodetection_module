@@ -155,7 +155,7 @@ class Oggetto_GeoDetection_Model_Location_Fetcher extends Mage_Core_Model_Abstra
      *
      * @return array
      */
-    public function getNotConnectedRegionsByCountryCode($countryCode)
+    public function getNotConnectedRegions($countryCode)
     {
         /** @var Oggetto_GeoDetection_Model_Resource_Location_Collection $collection */
         $collection = Mage::getResourceModel('oggetto_geodetection/location_collection');
@@ -163,9 +163,15 @@ class Oggetto_GeoDetection_Model_Location_Fetcher extends Mage_Core_Model_Abstra
         /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
         $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
 
-        $regions = $collection->selectRegions()->filterRegionsNotIn(
-            $relationModel->getAllIplocationRegionNamesByCountryCode($countryCode)
-        )->filterByCountryCode($countryCode)->getData();
+        $iplocationRegions = $relationModel->getAllIplocationRegionNames($countryCode);
+
+        $collection->selectRegions()->filterByCountryCode($countryCode);
+
+        if ($iplocationRegions) {
+            $collection->filterRegionsNotIn($iplocationRegions);
+        }
+
+        $regions = $collection->getData();
 
         foreach ($regions as $index => $region) {
             $regions[$index] = $region['region_name'];

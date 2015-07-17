@@ -82,7 +82,9 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
         );
 
 
-        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation_fetcher', ['isRegionConnected']);
+        $modelRelationMock = $this->getModelMock(
+            'oggetto_geodetection/location_relation_fetcher', ['isRegionConnected']
+        );
 
         $modelRelationMock->expects($this->once())
             ->method('isRegionConnected')
@@ -127,7 +129,9 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
         );
 
 
-        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation_fetcher', ['isRegionConnected']);
+        $modelRelationMock = $this->getModelMock(
+            'oggetto_geodetection/location_relation_fetcher', ['isRegionConnected']
+        );
 
         $modelRelationMock->expects($this->once())
             ->method('isRegionConnected')
@@ -357,6 +361,71 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
     }
 
     /**
+     * Return popular(by count of ip addresses) regions from collection
+     *
+     * @return void
+     */
+    public function testReturnsPopularRegionsByCountryCodeFromCollection()
+    {
+        $data = [
+            [
+                'region_name' => 'test1',
+                'city_name'   => 'testC1'
+            ],
+            [
+                'region_name' => 'test2',
+                'city_name'   => 'testC3'
+            ],
+            [
+                'region_name' => 'test1',
+                'city_name'   => 'testC2'
+            ],
+        ];
+
+        $regionsAndCities = [
+            'test1' => ['testC1', 'testC2'],
+            'test2' => ['testC3']
+        ];
+
+        $countryCode = 'code';
+
+        $collectionLocationsMock = $this->getResourceModelMock('oggetto_geodetection/location_collection', [
+            'selectRegionsAndCities', 'filterByCountryCode',
+            'groupByRegionAndCity', 'orderByIpCount',
+            'innerJoinWithRelations', 'getData'
+        ]);
+
+        $collectionLocationsMock->expects($this->once())
+            ->method('selectRegionsAndCities')
+            ->willReturnSelf();
+
+        $collectionLocationsMock->expects($this->once())
+            ->method('filterByCountryCode')
+            ->with($countryCode)
+            ->willReturnSelf();
+
+        $collectionLocationsMock->expects($this->once())
+            ->method('innerJoinWithRelations')
+            ->willReturnSelf();
+
+        $collectionLocationsMock->expects($this->once())
+            ->method('groupByRegionAndCity')
+            ->willReturnSelf();
+
+        $collectionLocationsMock->expects($this->once())
+            ->method('orderByIpCount')
+            ->willReturnSelf();
+
+        $collectionLocationsMock->expects($this->once())
+            ->method('getData')
+            ->willReturn($data);
+
+        $this->replaceByMock('resource_model', 'oggetto_geodetection/location_collection', $collectionLocationsMock);
+
+        $this->assertEquals($regionsAndCities, $this->_model->getPopularLocations($countryCode));
+    }
+
+    /**
      * Return regions by country code from collection
      *
      * @return void
@@ -414,11 +483,11 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
         $returnData = [ 'test1', 'test2' ];
 
         $modelRelationMock = $this->getModelMock(
-            'oggetto_geodetection/location_relation_fetcher', [ 'getAllIplocationRegionNamesByCountryCode' ]
+            'oggetto_geodetection/location_relation_fetcher', [ 'getAllIplocationRegionNames' ]
         );
 
         $modelRelationMock->expects($this->once())
-            ->method('getAllIplocationRegionNamesByCountryCode')
+            ->method('getAllIplocationRegionNames')
             ->with($countryCode)
             ->willReturn($allIplocationRegions);
 
@@ -451,6 +520,6 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
         $this->replaceByMock('resource_model', 'oggetto_geodetection/location_collection', $collectionLocationMock);
 
 
-        $this->assertEquals($returnData, $this->_model->getNotConnectedRegionsByCountryCode($countryCode));
+        $this->assertEquals($returnData, $this->_model->getNotConnectedRegions($countryCode));
     }
 }

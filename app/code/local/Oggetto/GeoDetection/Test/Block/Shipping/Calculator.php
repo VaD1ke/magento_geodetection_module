@@ -113,7 +113,9 @@ class Oggetto_GeoDetection_Test_Block_Shipping_Calculator extends EcomDev_PHPUni
         $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
 
 
-        $modelRelationMock = $this->getModelMock('oggetto_geodetection/location_relation_fetcher', ['isCollectionEmpty']);
+        $modelRelationMock = $this->getModelMock(
+            'oggetto_geodetection/location_relation_fetcher', ['isCollectionEmpty']
+        );
 
         $modelRelationMock->expects($this->once())
             ->method('isCollectionEmpty')

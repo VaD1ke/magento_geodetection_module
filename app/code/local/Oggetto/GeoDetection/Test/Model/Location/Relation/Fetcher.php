@@ -122,7 +122,7 @@ class Oggetto_GeoDetection_Test_Model_Location_Relation_Fetcher extends EcomDev_
             'resource_model', 'oggetto_geodetection/location_relation_collection', $collectionRelationMock
         );
 
-        $this->assertEquals($regionNames, $this->_model->getAllIplocationRegionNamesByCountryCode($countryCode));
+        $this->assertEquals($regionNames, $this->_model->getAllIplocationRegionNames($countryCode));
     }
 
     /**

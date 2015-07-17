@@ -33,6 +33,17 @@
 class Oggetto_GeoDetection_Model_Shipping_Handler
 {
     /**
+     * Fake destination postcode for shipping calculation
+     */
+    const FAKE_DEST_POSTCODE = '12345';
+
+    /**
+     * Fake products quantity for shipping calculation
+     */
+    const FAKE_PRODUCTS_QTY = 1;
+
+
+    /**
      * Get shipping results
      *
      * @param array                      $methods Methods
@@ -147,8 +158,8 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
             'dest_region_id'    => $cookie['region_id'],
             'dest_country_id'   => $cookie['country'],
             'product_weight'    => $product->getData('weight'),
-            'product_qty'       => Oggetto_GeoDetection_Block_Shipping_Calculator::FAKE_PRODUCTS_QTY,
-            'dest_postcode'     => Oggetto_GeoDetection_Block_Shipping_Calculator::FAKE_DEST_POSTCODE,
+            'product_qty'       => self::FAKE_PRODUCTS_QTY,
+            'dest_postcode'     => self::FAKE_DEST_POSTCODE,
             'package_value'     => $product->getData('price'),
             'freemethod_weight' => $product->getData('weight'),
             'website_id'        => Mage::app()->getWebsite()->getId(),
