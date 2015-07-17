@@ -76,6 +76,15 @@ please refer to http://www.magentocommerce.com for more information.
                 </args>
             </oggetto_geodetection>
         </routers>
+        <translate>
+            <modules>
+                <Oggetto_AdminConfigSearch>
+                    <files>
+                        <default>Oggetto/GeoDetection/Frontend.csv</default>
+                    </files>
+                </Oggetto_AdminConfigSearch>
+            </modules>
+        </translate>
     </frontend>
 
     <global>

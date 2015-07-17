@@ -1,0 +1,21 @@
+.shipping-calculations {
+    margin-top: 10px;
+}
+
+.shipping-calculations-title {
+    margin-bottom: 5px;
+}
+
+.shipping-calculations-title:hover {
+    opacity: .85;
+    cursor: pointer;
+}
+
+.shipping-calculations-list {
+    margin-left: 10px;
+    display: none;
+}
+
+.shipping-calculations-list-carrier {
+    margin-bottom: 1px;
+}

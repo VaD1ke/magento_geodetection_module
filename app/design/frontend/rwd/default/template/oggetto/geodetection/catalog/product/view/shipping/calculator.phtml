@@ -3,17 +3,22 @@
     $calculations = $this->calculateShipping(); ?>
 
     <?php if ($calculations): ?>
-        <ul>
-            <?php foreach($calculations as $carrier => $methods): ?>
-                <li>
-                    <h2 style="margin-bottom:1px;"><?php echo $carrier; ?></h2>
+        <div class="shipping-calculations">
+            <h2 id="shipping-calculations-title" class="shipping-calculations-title">
+                <?php echo $this->__('Shipping prices'); ?>
+            </h2>
+            <ul class="shipping-calculations-list">
+                <?php foreach($calculations as $carrier => $methods): ?>
+                    <li>
+                        <h3 class="shipping-calculations-list-carrier"><?php echo $carrier; ?></h3>
 
-                    <?php foreach($methods as $title => $method): ?>
-                        <h3><?php echo $title . ' ' . Mage::helper('core')->formatPrice($method['price']); ?></h3>
-                    <?php endforeach; ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+                        <?php foreach($methods as $title => $method): ?>
+                            <h4><?php echo $title . ' ' . Mage::helper('core')->formatPrice($method['price']); ?></h4>
+                        <?php endforeach; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
     <?php endif; ?>
 
 <?php endif; ?>
