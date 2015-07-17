@@ -23,11 +23,7 @@
 
 "use strict";
 jQuery( function ($) {
-    $('#shipping-calculations-title').click(function() {
-        $(this).next().toggle();
-    });
-
-    $('.product-info').on('click', '#list-shipping-calculations-title', function() {
-        $(this).next().toggle();
+    $('.product-info').on('click', '.shipping-calculations-title_span', function () {
+        $(this).closest('#shipping-calculations-title').next().toggle();
     });
 });

@@ -2,20 +2,31 @@
     margin-top: 10px;
 }
 
-.shipping-calculations-title {
+.shipping-calculations-title_span {
     margin-bottom: 5px;
 }
 
-.shipping-calculations-title:hover {
+.shipping-calculations-title_span:hover {
     opacity: .85;
     cursor: pointer;
 }
 
 .shipping-calculations-list {
-    margin-left: 10px;
     display: none;
 }
 
 .shipping-calculations-list-carrier {
     margin-bottom: 1px;
+}
+
+.shipping-calculations-list-calculation {
+    font-style: italic;
+}
+
+.not-selectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

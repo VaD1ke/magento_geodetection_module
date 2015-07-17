@@ -1,0 +1,23 @@
+.shipping-calculations-list {
+    margin: 0 0 10px 15px;
+}
+
+.shipping-calculations-list_li {
+    margin-bottom: 10px;
+}
+
+.shipping-calculations-list_li_ul {
+    margin-left: 10px;
+}
+
+.shipping-calculations-list-method {
+    margin: 1px 5px 3px 0;
+
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.shipping-calculations-list-calculation {
+    font-style: italic;
+    font-size: 15px;
+}

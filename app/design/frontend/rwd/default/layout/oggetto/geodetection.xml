@@ -78,8 +78,13 @@ please refer to http://www.magentocommerce.com for more information.
                 <name>css/oggetto/geodetection/shipping.css</name>
             </action>
             <action method="addItem">
+                <type>skin_css</type>
+                <name>css/oggetto/geodetection/catalog/list/calculations.css</name>
+            </action>
+
+            <action method="addItem">
                 <type>skin_js</type>
-                <name>js/oggetto/geodetection/shipping.js</name>
+                <name>js/oggetto/geodetection/catalog/list/calculations.js</name>
             </action>
         </reference>
 
@@ -97,8 +102,13 @@ please refer to http://www.magentocommerce.com for more information.
                 <name>css/oggetto/geodetection/shipping.css</name>
             </action>
             <action method="addItem">
+                <type>skin_css</type>
+                <name>css/oggetto/geodetection/catalog/view/calculations.css</name>
+            </action>
+
+            <action method="addItem">
                 <type>skin_js</type>
-                <name>js/oggetto/geodetection/shipping.js</name>
+                <name>js/oggetto/geodetection/catalog/view/calculations.js</name>
             </action>
         </reference>
 

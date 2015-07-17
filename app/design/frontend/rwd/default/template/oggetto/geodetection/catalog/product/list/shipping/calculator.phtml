@@ -4,17 +4,20 @@
 
     <?php if ($calculations): ?>
         <div class="shipping-calculations">
-            <h5 id="list-shipping-calculations-title" class="shipping-calculations-title">
-                <?php echo $this->__('Shipping prices'); ?>
+            <h5 id="shipping-calculations-title">
+                <span class="shipping-calculations-title_span not-selectable">
+                    <?php echo $this->__('Shipping prices'); ?>
+                </span>
             </h5>
             <ul class="shipping-calculations-list">
                 <?php foreach($calculations as $carrier => $methods): ?>
-                    <li style="margin-bottom:5px;">
+                    <li class="shipping-calculations-list_li">
                         <h6 class="shipping-calculations-list-carrier"><?php echo $carrier; ?></h6>
 
                         <?php foreach($methods as $title => $method): ?>
-                            <span>
-                                <?php echo $title . ' ' . Mage::helper('core')->formatPrice($method['price']); ?>
+                            <span class="shipping-calculations-list-method"><?php echo $title ?></span>
+                            <span class="shipping-calculations-list-calculation">
+                                <?php echo Mage::helper('core')->formatPrice($method['price']); ?>
                             </span>
                         <?php endforeach; ?>
                     </li>
