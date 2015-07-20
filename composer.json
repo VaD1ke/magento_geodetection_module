@@ -39,6 +39,10 @@
                 "app/design/frontend/rwd/default/template/oggetto/geodetection", 
                 "app/design/frontend/rwd/default/template/oggetto/geodetection"
             ],
+            [
+                "app/locale/ru_RU/Oggetto/GeoDetection", 
+                "app/locale/ru_RU/Oggetto/GeoDetection"
+            ],
 
             [
                 "skin/adminhtml/default/default/css/oggetto/geodetection", 
