@@ -21,8 +21,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-"use strict";
 jQuery( function ($) {
+    "use strict";
+
     $('.page-header-container').on('click', '.city-trigger', function(e) {
         e.preventDefault();
         var locations = LocationSingleton.getLocationArray();

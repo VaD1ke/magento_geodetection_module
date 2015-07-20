@@ -21,8 +21,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-"use strict";
 function connectRegions(directoryRegion, iplocationRegion, $) {
+    "use strict";
+
     var regionId = $(directoryRegion).data('id');
 
     if ($(iplocationRegion).data('regionId') == regionId) {

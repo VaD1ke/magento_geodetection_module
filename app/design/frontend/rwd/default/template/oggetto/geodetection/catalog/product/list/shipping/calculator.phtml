@@ -14,12 +14,16 @@
                     <li class="shipping-calculations-list_li">
                         <h6 class="shipping-calculations-list-carrier"><?php echo $carrier; ?></h6>
 
-                        <?php foreach($methods as $title => $method): ?>
-                            <span class="shipping-calculations-list-method"><?php echo $title ?></span>
-                            <span class="shipping-calculations-list-calculation">
-                                <?php echo Mage::helper('core')->formatPrice($method['price']); ?>
-                            </span>
-                        <?php endforeach; ?>
+                        <ul class="shipping-calculations-list_li_ul">
+                            <?php foreach($methods as $title => $method): ?>
+                                <li>
+                                    <span class="shipping-calculations-list-method"><?php echo $title ?></span>
+                                    <span class="shipping-calculations-list-calculation">
+                                        <?php echo Mage::helper('core')->formatPrice($method['price']); ?>
+                                    </span>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
                     </li>
                 <?php endforeach; ?>
             </ul>

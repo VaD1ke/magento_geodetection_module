@@ -21,8 +21,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-"use strict";
 jQuery( function($) {
+    "use strict";
+
     $('#country-selection').on('change', function(){
         var optionSelected = $(this).find('option:selected');
 
