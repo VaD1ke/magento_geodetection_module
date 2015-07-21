@@ -42,6 +42,11 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
      */
     const FAKE_PRODUCTS_QTY = 1;
 
+    /**
+     * Extmage Shipcc shipping method code
+     */
+    const EXTMAGE_SHIPCC_METHOD_CODE = 'shipcc';
+
 
     /**
      * Get shipping results
@@ -62,6 +67,10 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
             $carrier = Mage::getModel('shipping/shipping')->getCarrierByCode($methodCode);
 
             if ($carrier) {
+                if ($methodCode == self::EXTMAGE_SHIPCC_METHOD_CODE) {
+                    $requestData['dest_city'] = $this->_convertToShipccCity($requestData['dest_city']);
+                }
+
                 $result = $carrier->collectRates($this->_prepareRequest($requestData));
 
                 if ($result && !$result->getError()) {
@@ -167,6 +176,25 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
         ];
 
         return $requestData;
+    }
+
+    /**
+     * Convert to shipcc city
+     *
+     * @param string $city City
+     *
+     * @return string
+     */
+    protected function _convertToShipccCity($city)
+    {
+        $cityCode = Mage::helper('oggetto_geodetection/translator')->convertToDirectoryCityCode($city);
+
+        /** @var Oggetto_Shipping_Model_City $model */
+        $model = Mage::getModel('oggetto_shipping/city');
+
+        $directoryCity = $model->loadByCode($cityCode);
+
+        return $directoryCity->getName();
     }
 
 
