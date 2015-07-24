@@ -24,7 +24,7 @@
 jQuery( function ($) {
     "use strict";
 
-    $('.page-header-container').on('click', '.city-trigger', function(e) {
+    $('#geo_detection').on('click', '.city-trigger', function(e) {
         e.preventDefault();
         var locations = LocationSingleton.getLocationArray();
 
@@ -79,9 +79,12 @@ jQuery( function ($) {
     }).on('click', '.location-city-li_a', function(e) {
         e.preventDefault();
 
+        var cookie = Mage.Cookies.get('user_location');
+
         var locationData = {};
         locationData['country'] = $('#geo_detection-city').data('countryCode');
         locationData['city']    = $(this).text().trim();
+
 
         var locationArray = LocationSingleton.getLocationArray();
 
@@ -93,11 +96,13 @@ jQuery( function ($) {
             }
         }
 
-        var locationJson = JSON.stringify(locationData);
+        var locationJson = JSON_stringify(locationData, false);
 
-        Mage.Cookies.set('user_location', locationJson);
+        if (locationJson != cookie) {
+            Mage.Cookies.set('user_location', locationJson);
 
-        location.reload();
+            location.reload();
+        }
     });
 
 

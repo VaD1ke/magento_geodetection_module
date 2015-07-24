@@ -21,11 +21,12 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-jQuery( function ($) {
-    "use strict";
-
-    $('.shipping-calculations').on('click', '.shipping-calculations-title_span', function() {
-        $(this).closest('#shipping-calculations-title').next().toggle();
-        $(this).toggleClass('open');
-    });
-});
+function JSON_stringify(s, emit_unicode)
+{
+    var json = JSON.stringify(s);
+    return emit_unicode ? json : json.replace(/[\u007f-\uffff]/g,
+        function(c) {
+            return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
+        }
+    );
+}

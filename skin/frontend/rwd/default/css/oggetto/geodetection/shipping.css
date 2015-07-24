@@ -19,8 +19,43 @@
     margin-bottom: 1px;
 }
 
+.shipping-calculations-list-method {
+    width: 50%;
+    display:inline-block;
+    float: left;
+}
+
 .shipping-calculations-list-calculation {
+    width: 80%;
+
     font-style: italic;
+}
+
+.shipping-calculations-list-date {
+    width: 40%;
+    display:inline-block;
+    float: right;
+
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.shipping-calculations-title_span{
+    position: relative;
+}
+
+.shipping-calculations-title_span::before {
+    left: 0;
+    position: absolute;
+
+    content: '';
+    background: url('../../../images/oggetto/geodetection/list-arrow-r.png');
+    background-size: cover;
+}
+
+.shipping-calculations-title_span.open::before {
+    background: url('../../../images/oggetto/geodetection/list-arrow-d.png');
+    background-size: cover;
 }
 
 .not-selectable {

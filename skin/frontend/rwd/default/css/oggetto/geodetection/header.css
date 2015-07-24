@@ -1,0 +1,17 @@
+.geo-detection {
+    display: inline-block;
+    margin: 20px 20px 0 30px;
+}
+
+.geo-detection-city {
+    display: inline-block;
+
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.geo-detection-city-trigger {
+    padding: 0 10px;
+
+    font-size: 14px;
+}

@@ -2,8 +2,20 @@
     margin-bottom: 10px;
 }
 
+.shipping-calculations-title {
+    font-weight: 700;
+    font-size: 16px;
+}
+
 .shipping-calculations-list_li {
     margin-bottom: 5px;
+}
+
+.shipping-calculations-list-carrier {
+    margin-bottom: 3px;
+
+    font-weight: 500;
+    font-size: 15px;
 }
 
 .shipping-calculations-list-method {
@@ -14,28 +26,23 @@
 }
 
 .shipping-calculations-list-calculation {
-    font-style: italic;
+    padding-top: 3px;
     font-size: 12px;
 }
 
+.shipping-calculations-list-date {
+    margin-top: 1px;
+    margin-left: 8px;
+
+    font-size: 11px;
+}
+
 .shipping-calculations-title_span{
-    position: relative;
     padding: 11px;
 }
 
 .shipping-calculations-title_span::before {
-    content: "";
     width: 10px;
     height: 10px;
-
     top: 13px;
-    left: 0;
-    position: absolute;
-
-    background: url('../../../../../images/oggetto/geodetection/list-arrow.png');
-    background-size: cover;
-}
-
-.shipping-calculations-title_span.open::before {
-    transform: rotate(90deg);
 }
