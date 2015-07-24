@@ -60,7 +60,7 @@ class Oggetto_GeoDetection_Block_Adminhtml_Management extends Mage_Adminhtml_Blo
         /** @var Oggetto_GeoDetection_Model_Location_Fetcher $model */
         $model = Mage::getModel('oggetto_geodetection/location_fetcher');
 
-        return $model->getNotConnectedRegions($countryCode);
+        return $model->getRegions($countryCode, false);
     }
 
     /**
@@ -72,8 +72,8 @@ class Oggetto_GeoDetection_Block_Adminhtml_Management extends Mage_Adminhtml_Blo
      */
     public function getDirectoryRegions($countryCode)
     {
-        /** @var Oggetto_GeoDetection_Model_Directory_Fetcher $modelFetcher */
-        $modelFetcher = Mage::getModel('oggetto_geodetection/directory_fetcher');
+        /** @var Oggetto_GeoDetection_Model_Directory_Region_Fetcher $modelFetcher */
+        $modelFetcher = Mage::getModel('oggetto_geodetection/directory_region_fetcher');
 
         return $modelFetcher->getRegions($countryCode);
     }
@@ -110,8 +110,8 @@ class Oggetto_GeoDetection_Block_Adminhtml_Management extends Mage_Adminhtml_Blo
      */
     public function getAllCountries()
     {
-        /** @var Oggetto_GeoDetection_Model_Directory_Fetcher $modelFetcher */
-        $modelFetcher = Mage::getModel('oggetto_geodetection/directory_fetcher');
+        /** @var Oggetto_GeoDetection_Model_Directory_Region_Fetcher $modelFetcher */
+        $modelFetcher = Mage::getModel('oggetto_geodetection/directory_region_fetcher');
 
         return $modelFetcher->getAllCountries();
     }

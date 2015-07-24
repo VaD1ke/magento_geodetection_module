@@ -55,32 +55,15 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
      *
      * @return void
      */
-    public function testReturnsLocationByIpFromCollection()
+    public function testReturnsLocationByIpFromLocationModel()
     {
         $ip = '123';
         $locationData = ['region_name' => 'test1'];
 
-        $firstItem = new Varien_Object;
-        $firstItem->setData($locationData);
+        $location = new Varien_Object;
+        $location->setData($locationData);
 
-
-        $collectionLocationMock = $this->getResourceModelMock('oggetto_geodetection/location_collection', [
-            'getLocationInIpRange', 'getFirstItem'
-        ]);
-
-        $collectionLocationMock->expects($this->once())
-            ->method('getLocationInIpRange')
-            ->with($ip)
-            ->willReturnSelf();
-
-        $collectionLocationMock->expects($this->once())
-            ->method('getFirstItem')
-            ->willReturn($firstItem);
-
-        $this->replaceByMock(
-            'resource_model', 'oggetto_geodetection/location_collection', $collectionLocationMock
-        );
-
+        $this->_mockLocationModelForLoadingLocationByIp($ip, $location);
 
         $modelRelationMock = $this->getModelMock(
             'oggetto_geodetection/location_relation_fetcher', ['isRegionConnected']
@@ -102,32 +85,15 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
      *
      * @return void
      */
-    public function testReturnsNullFromGettingLocationByIpFromCollectionIfRegionIsNotConnected()
+    public function testReturnsNullFromGettingLocationByIpFromModelIfRegionIsNotConnected()
     {
         $ip = '123';
         $locationData = ['region_name' => 'test1'];
 
-        $firstItem = new Varien_Object;
-        $firstItem->setData($locationData);
+        $location = new Varien_Object;
+        $location->setData($locationData);
 
-
-        $collectionLocationMock = $this->getResourceModelMock('oggetto_geodetection/location_collection', [
-            'getLocationInIpRange', 'getFirstItem'
-        ]);
-
-        $collectionLocationMock->expects($this->once())
-            ->method('getLocationInIpRange')
-            ->with($ip)
-            ->willReturnSelf();
-
-        $collectionLocationMock->expects($this->once())
-            ->method('getFirstItem')
-            ->willReturn($firstItem);
-
-        $this->replaceByMock(
-            'resource_model', 'oggetto_geodetection/location_collection', $collectionLocationMock
-        );
-
+        $this->_mockLocationModelForLoadingLocationByIp($ip, $location);
 
         $modelRelationMock = $this->getModelMock(
             'oggetto_geodetection/location_relation_fetcher', ['isRegionConnected']
@@ -520,6 +486,26 @@ class Oggetto_GeoDetection_Test_Model_Location_Fetcher extends EcomDev_PHPUnit_T
         $this->replaceByMock('resource_model', 'oggetto_geodetection/location_collection', $collectionLocationMock);
 
 
-        $this->assertEquals($returnData, $this->_model->getNotConnectedRegions($countryCode));
+        $this->assertEquals($returnData, $this->_model->getRegions($countryCode, false));
+    }
+
+    /**
+     * Mock location model for loading location by IP
+     *
+     * @param string        $ip       IP
+     * @param Varien_Object $location Location
+     *
+     * @return void
+     */
+    protected function _mockLocationModelForLoadingLocationByIp($ip, $location)
+    {
+        $locationModelMock = $this->getModelMock('oggetto_geodetection/location', ['loadByIp']);
+
+        $locationModelMock->expects($this->once())
+            ->method('loadByIp')
+            ->with($ip)
+            ->willReturn($location);
+
+        $this->replaceByMock('model', 'oggetto_geodetection/location', $locationModelMock);
     }
 }

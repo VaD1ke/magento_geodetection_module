@@ -41,5 +41,4 @@ class Oggetto_GeoDetection_Model_Resource_Location_Relation extends Mage_Core_Mo
     {
         $this->_init('oggetto_geodetection/table_region_iplocations_relation', 'id');
     }
-
 }

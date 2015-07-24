@@ -1,0 +1,22 @@
+<?php /** @var Oggetto_GeoDetection_Block_Shipping_Calculation_Results $this */ ?>
+
+<ul class="shipping-calculations-list_li_ul">
+    <?php foreach($this->getMethodsData() as $title => $method): ?>
+        <li>
+            <div class="shipping-calculations-list-method">
+                <?php echo $title ?>
+            </div>
+            <?php if ($method['date']): ?>
+                <div class="shipping-calculations-list-date">
+                    27 июля 2015 г.
+                </div>
+            <?php endif; ?>
+            <div class="shipping-calculations-list-calculation">
+                <?php echo Mage::helper('core')->formatPrice(
+                    Mage::helper('tax')->getShippingPrice($method['price']), true
+                ); ?>
+            </div>
+            <div style="clear: both"></div>
+        </li>
+    <?php endforeach; ?>
+</ul>

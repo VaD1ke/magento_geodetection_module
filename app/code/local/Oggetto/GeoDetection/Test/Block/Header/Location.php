@@ -313,13 +313,14 @@ class Oggetto_GeoDetection_Test_Block_Header_Location extends EcomDev_PHPUnit_Te
     {
         $countryCode = 'code';
 
-        $helperDataMock = $this->getHelperMock('oggetto_geodetection', ['getDefaultCountry']);
+        $blockLocationMock = $this->getBlockMock('oggetto_geodetection/header_location', ['getDefaultCountry']);
 
-        $helperDataMock->expects($this->once())
+        $blockLocationMock->expects($this->once())
             ->method('getDefaultCountry')
             ->willReturn($countryCode);
 
-        $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
+        $this->replaceByMock('block', 'oggetto_geodetection/header_location', $blockLocationMock);
+
 
         $modelRelationMock = $this->getModelMock(
             'oggetto_geodetection/location_relation_fetcher', ['isCollectionEmpty']
@@ -332,7 +333,7 @@ class Oggetto_GeoDetection_Test_Block_Header_Location extends EcomDev_PHPUnit_Te
 
         $this->replaceByMock('model', 'oggetto_geodetection/location_relation_fetcher', $modelRelationMock);
 
-        $this->assertEquals($this->expected()->getData($status), $this->_locationBlock->isEnabled());
+        $this->assertEquals($this->expected()->getData($status), $blockLocationMock->isEnabled());
     }
 
 

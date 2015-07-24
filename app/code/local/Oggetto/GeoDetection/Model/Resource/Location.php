@@ -42,4 +42,26 @@ class Oggetto_GeoDetection_Model_Resource_Location extends Mage_Core_Model_Resou
         $this->_init('oggetto_geodetection/table_locations', 'id');
     }
 
+    /**
+     * Load by IP
+     *
+     * @param Oggetto_GeoDetection_Model_Location $model Model
+     * @param integer                             $ip    IP
+     *
+     * @return Oggetto_GeoDetection_Model_Location
+     */
+    public function loadByIp($model, $ip)
+    {
+        $select = $this->getReadConnection()->select()
+            ->from($this->getMainTable())
+            ->where('ip_from <= ?', $ip)
+            ->where('ip_to >= ?', $ip);
+
+        $data = $this->getReadConnection()->fetchRow($select);
+        if ($data) {
+            $model->addData($data);
+        }
+
+        return $model;
+    }
 }

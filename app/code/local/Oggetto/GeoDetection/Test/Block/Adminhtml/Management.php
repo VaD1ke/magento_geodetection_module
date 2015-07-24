@@ -81,12 +81,12 @@ class Oggetto_GeoDetection_Test_Block_Adminhtml_Management extends EcomDev_PHPUn
         $countryCode = 'test';
 
         $modelLocationMock = $this->getModelMock(
-            'oggetto_geodetection/location_fetcher', ['getNotConnectedRegions']
+            'oggetto_geodetection/location_fetcher', ['getRegions']
         );
 
         $modelLocationMock->expects($this->once())
-            ->method('getNotConnectedRegions')
-            ->with($countryCode)
+            ->method('getRegions')
+            ->with($countryCode, false)
             ->willReturn($regions);
 
         $this->replaceByMock('model', 'oggetto_geodetection/location_fetcher', $modelLocationMock);
@@ -106,14 +106,14 @@ class Oggetto_GeoDetection_Test_Block_Adminhtml_Management extends EcomDev_PHPUn
         $regions = ['test'];
         $countryCode = 'test';
 
-        $modelFetcherMock = $this->getModelMock('oggetto_geodetection/directory_fetcher', ['getRegions']);
+        $modelFetcherMock = $this->getModelMock('oggetto_geodetection/directory_region_fetcher', ['getRegions']);
 
         $modelFetcherMock->expects($this->once())
             ->method('getRegions')
             ->with($countryCode)
             ->willReturn($regions);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/directory_fetcher', $modelFetcherMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/directory_region_fetcher', $modelFetcherMock);
 
         $this->assertEquals($regions, $this->_managementBlock->getDirectoryRegions($countryCode));
     }
@@ -173,13 +173,13 @@ class Oggetto_GeoDetection_Test_Block_Adminhtml_Management extends EcomDev_PHPUn
     {
         $countries = ['testCountry1', 'testCountry2'];
 
-        $modelFetcherMock = $this->getModelMock('oggetto_geodetection/directory_fetcher', ['getAllCountries']);
+        $modelFetcherMock = $this->getModelMock('oggetto_geodetection/directory_region_fetcher', ['getAllCountries']);
 
         $modelFetcherMock->expects($this->once())
             ->method('getAllCountries')
             ->willReturn($countries);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/directory_fetcher', $modelFetcherMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/directory_region_fetcher', $modelFetcherMock);
 
 
         $this->assertEquals($countries, $this->_managementBlock->getAllCountries());

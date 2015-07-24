@@ -30,7 +30,11 @@ please refer to http://www.magentocommerce.com for more information.
             </action>
             <action method="addItem">
                 <type>skin_css</type>
-                <name>css/oggetto/geodetection/modals.css</name>
+                <name>css/oggetto/geodetection/modal.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/oggetto/geodetection/header.css</name>
             </action>
 
 
@@ -53,11 +57,11 @@ please refer to http://www.magentocommerce.com for more information.
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <name>js/oggetto/geodetection/modal-provider.js</name>
+                <name>js/oggetto/geodetection/json-helper.js</name>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <name>js/oggetto/geodetection/cookie-helper.js</name>
+                <name>js/oggetto/geodetection/modal-provider.js</name>
             </action>
         </reference>
 
@@ -79,7 +83,7 @@ please refer to http://www.magentocommerce.com for more information.
             </action>
             <action method="addItem">
                 <type>skin_css</type>
-                <name>css/oggetto/geodetection/catalog/list/calculations.css</name>
+                <name>css/oggetto/geodetection/catalog/list/shipping.css</name>
             </action>
 
             <action method="addItem">
@@ -93,6 +97,12 @@ please refer to http://www.magentocommerce.com for more information.
             <block type="oggetto_geodetection/shipping_calculator" name="shipping_calculator" as="shipping_calculator"
                    template="oggetto/geodetection/catalog/product/list/shipping/calculator.phtml"/>
         </reference>
+
+        <reference name="shipping_calculator">
+            <block type="oggetto_geodetection/shipping_calculation_results"
+                   name="shipping_calculation_results" as="shipping_calculation_results"
+                   template="oggetto/geodetection/catalog/product/calculation/results.phtml"/>
+        </reference>
     </catalog_category_layered>
 
     <catalog_product_view>
@@ -103,7 +113,7 @@ please refer to http://www.magentocommerce.com for more information.
             </action>
             <action method="addItem">
                 <type>skin_css</type>
-                <name>css/oggetto/geodetection/catalog/view/calculations.css</name>
+                <name>css/oggetto/geodetection/catalog/view/shipping.css</name>
             </action>
 
             <action method="addItem">
@@ -117,5 +127,12 @@ please refer to http://www.magentocommerce.com for more information.
             <block type="oggetto_geodetection/shipping_calculator" name="shipping_calculator" as="shipping_calculator"
                    template="oggetto/geodetection/catalog/product/view/shipping/calculator.phtml"/>
         </reference>
+
+        <reference name="shipping_calculator">
+            <block type="oggetto_geodetection/shipping_calculation_results"
+                   name="shipping_calculation_results" as="shipping_calculation_results"
+                   template="oggetto/geodetection/catalog/product/calculation/results.phtml"/>
+        </reference>
     </catalog_product_view>
 </layout>
+

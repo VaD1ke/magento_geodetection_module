@@ -132,6 +132,29 @@ class Oggetto_GeoDetection_Model_Location_Relation_Fetcher
     }
 
     /**
+     * Get regions IDs
+     *
+     * @param string $countryCode Country code
+     *
+     * @return array
+     */
+    public function getRegionsIds($countryCode)
+    {
+        /** @var Oggetto_GeoDetection_Model_Resource_Location_Relation_Collection $collection */
+        $collection = Mage::getResourceModel('oggetto_geodetection/location_relation_collection');
+
+        $relations = $collection->selectByCountryCode($countryCode)->getData();
+
+        $regionIds = [];
+
+        foreach ($relations as $relation) {
+            $regionIds[] = $relation['region_id'];
+        }
+
+        return $regionIds;
+    }
+
+    /**
      * Is region connected
      *
      * @param string $regionName Region name

@@ -61,9 +61,11 @@ class Oggetto_GeoDetection_Test_Model_Shipping_Handler extends EcomDev_PHPUnit_T
         $simpleProduct = new Mage_Catalog_Model_Product;
         $requestData = ['test', 'test1'];
 
-        $modelHandlerMock = $this->_getModelHandlerMockForGettingCheapestSimpleProductAndRequestData(
-            $configurableProduct, $simpleProduct, $requestData
+        $this->_mockProductGetterModelForGettingCheapestSimpleProductFromConfigurable(
+            $configurableProduct, $simpleProduct
         );
+
+        $modelHandlerMock = $this->_getModelHandlerMockForGettingRequestData($simpleProduct, $requestData);
 
         $shippingMethods = [];
 
@@ -83,9 +85,11 @@ class Oggetto_GeoDetection_Test_Model_Shipping_Handler extends EcomDev_PHPUnit_T
 
         $shippingMethods = ['method'];
 
-        $modelHandlerMock = $this->_getModelHandlerMockForGettingCheapestSimpleProductAndRequestData(
-            $configurableProduct, $simpleProduct, $requestData
+        $this->_mockProductGetterModelForGettingCheapestSimpleProductFromConfigurable(
+            $configurableProduct, $simpleProduct
         );
+
+        $modelHandlerMock = $this->_getModelHandlerMockForGettingRequestData($simpleProduct, $requestData);
 
         $modelShippingMock = $this->getModelMock('shipping/shipping', ['getCarrierByCode']);
 
@@ -118,9 +122,12 @@ class Oggetto_GeoDetection_Test_Model_Shipping_Handler extends EcomDev_PHPUnit_T
         $result = Mage::getModel('shipping/rate_result');
         $result->append($error);
 
+        $this->_mockProductGetterModelForGettingCheapestSimpleProductFromConfigurable(
+            $configurableProduct, $simpleProduct
+        );
 
-        $modelHandlerMock = $this->_getModelHandlerMockForGettingCheapestSimpleProductAndRequestDataAndRequest(
-            $configurableProduct, $simpleProduct, $requestData, $request
+        $modelHandlerMock = $this->_getModelHandlerMockForGettingRequestDataAndRequest(
+            $simpleProduct, $requestData, $request
         );
 
         $modelCarrierMock = $this->getModelMock('shipping/carrier_abstract', ['collectRates']);
@@ -162,11 +169,15 @@ class Oggetto_GeoDetection_Test_Model_Shipping_Handler extends EcomDev_PHPUnit_T
             'carrier_title' => 'c_title',
             'method_title'  => 'm_title',
             'price'         => Mage::app()->getStore()->roundPrice(123),
+            'date'          => '12.12.2012'
         ];
 
         $calculationData = [
             $rateData['carrier_title'] => [
-                $rateData['method_title'] => [ 'price' => $rateData['price'] ],
+                $rateData['method_title'] => [
+                    'price' => $rateData['price'],
+                    'date'  => $rateData['date'],
+                ],
             ],
         ];
 
@@ -174,6 +185,7 @@ class Oggetto_GeoDetection_Test_Model_Shipping_Handler extends EcomDev_PHPUnit_T
         $rate = Mage::getModel('shipping/rate_result_method');
         $rate->setCarrierTitle($rateData['carrier_title']);
         $rate->setMethodTitle($rateData['method_title']);
+        $rate->setShipmentDates($rateData['date']);
         $rate->setPrice($rateData['price']);
         $rate->setCost($rateData['price']);
 
@@ -192,8 +204,12 @@ class Oggetto_GeoDetection_Test_Model_Shipping_Handler extends EcomDev_PHPUnit_T
 
         $this->replaceByMock('model', 'shipping/rate_request', $modelResultMock);
 
-        $modelHandlerMock = $this->_getModelHandlerMockForGettingCheapestSimpleProductAndRequestDataAndRequest(
-            $configurableProduct, $simpleProduct, $requestData, $request
+        $this->_mockProductGetterModelForGettingCheapestSimpleProductFromConfigurable(
+            $configurableProduct, $simpleProduct
+        );
+
+        $modelHandlerMock = $this->_getModelHandlerMockForGettingRequestDataAndRequest(
+            $simpleProduct, $requestData, $request
         );
 
 
@@ -224,26 +240,20 @@ class Oggetto_GeoDetection_Test_Model_Shipping_Handler extends EcomDev_PHPUnit_T
     /**
      * Get model handler mock for getting sheapest simple product and request data
      *
-     * @param Mage_Catalog_Model_Product_Type_Configurable $configurable Configurable product
-     * @param Mage_Catalog_Model_Product                   $simple       Simpler product
-     * @param array                                        $data         Request data
+     * @param Mage_Catalog_Model_Product $product Product
+     * @param array                      $data    Request data
      *
      * @return EcomDev_PHPUnit_Mock_Proxy
      */
-    protected function _getModelHandlerMockForGettingCheapestSimpleProductAndRequestData($configurable, $simple, $data)
+    protected function _getModelHandlerMockForGettingRequestData($product, $data)
     {
-        $modelHandlerMock = $this->getModelMock('oggetto_geodetection/shipping_handler', [
-            '_getCheapestSimpleProduct', '_prepareDataForRequest'
-        ]);
-
-        $modelHandlerMock->expects($this->once())
-            ->method('_getCheapestSimpleProduct')
-            ->with($configurable)
-            ->willReturn($simple);
+        $modelHandlerMock = $this->getModelMock(
+            'oggetto_geodetection/shipping_handler', [ '_prepareDataForRequest' ]
+        );
 
         $modelHandlerMock->expects($this->once())
             ->method('_prepareDataForRequest')
-            ->with($simple)
+            ->with($product)
             ->willReturn($data);
 
         $this->replaceByMock('model', 'oggetto_geodetection/shipping_handler', $modelHandlerMock);
@@ -254,28 +264,22 @@ class Oggetto_GeoDetection_Test_Model_Shipping_Handler extends EcomDev_PHPUnit_T
     /**
      * Get model handler mock for getting sheapest simple product and request data
      *
-     * @param Mage_Catalog_Model_Product_Type_Configurable $configurable Configurable product
-     * @param Mage_Catalog_Model_Product                   $simple       Simpler product
-     * @param array                                        $requestData  Request data
-     * @param Mage_Shipping_Model_Rate_Request             $request      Request
+     * @param Mage_Catalog_Model_Product       $product     Product
+     * @param array                            $requestData Request data
+     * @param Mage_Shipping_Model_Rate_Request $request     Request
      *
      * @return EcomDev_PHPUnit_Mock_Proxy
      */
-    protected function _getModelHandlerMockForGettingCheapestSimpleProductAndRequestDataAndRequest(
-        $configurable, $simple, $requestData, $request
+    protected function _getModelHandlerMockForGettingRequestDataAndRequest(
+        $product, $requestData, $request
     ) {
         $modelHandlerMock = $this->getModelMock('oggetto_geodetection/shipping_handler', [
-            '_prepareRequest', '_getCheapestSimpleProduct', '_prepareDataForRequest'
+            '_prepareRequest', '_prepareDataForRequest'
         ]);
 
         $modelHandlerMock->expects($this->once())
-            ->method('_getCheapestSimpleProduct')
-            ->with($configurable)
-            ->willReturn($simple);
-
-        $modelHandlerMock->expects($this->once())
             ->method('_prepareDataForRequest')
-            ->with($simple)
+            ->with($product)
             ->willReturn($requestData);
 
         $modelHandlerMock->expects($this->once())
@@ -286,5 +290,27 @@ class Oggetto_GeoDetection_Test_Model_Shipping_Handler extends EcomDev_PHPUnit_T
         $this->replaceByMock('model', 'oggetto_geodetection/shipping_handler', $modelHandlerMock);
 
         return $modelHandlerMock;
+    }
+
+    /**
+     * Mock product getter model for getting cheapest simple product
+     *
+     * @param Mage_Catalog_Model_Product_Type_Configurable $configurable Configurable product
+     * @param Mage_Catalog_Model_Product                   $simple       Simpler product
+     *
+     * @return void
+     */
+    protected function _mockProductGetterModelForGettingCheapestSimpleProductFromConfigurable($configurable, $simple)
+    {
+        $modelProductMock = $this->getModelMock(
+            'oggetto_geodetection/product_getter', [ 'getCheapestSimpleProduct' ]
+        );
+
+        $modelProductMock->expects($this->once())
+            ->method('getCheapestSimpleProduct')
+            ->with($configurable)
+            ->willReturn($simple);
+
+        $this->replaceByMock('model', 'oggetto_geodetection/product_getter', $modelProductMock);
     }
 }

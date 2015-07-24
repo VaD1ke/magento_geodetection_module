@@ -23,15 +23,53 @@
  */
 
 /**
- * Directory fetcher
+ * Directory region fetcher
  *
  * @category   Oggetto
  * @package    Oggetto_GeoDetection
  * @subpackage Model
  * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
  */
-class Oggetto_GeoDetection_Model_Directory_Fetcher
+class Oggetto_GeoDetection_Model_Directory_Region_Fetcher
 {
+    /**
+     * Get regions
+     *
+     * @param string $countryCode Country code
+     * @param array  $regionIds   Region IDs
+     *
+     * @return array
+     */
+    public function getRegions($countryCode = null, $regionIds = null)
+    {
+        /** @var Mage_Directory_Model_Resource_Region_Collection $collection */
+        $collection = Mage::getResourceModel('directory/region_collection');
+
+        if ($countryCode) {
+            $collection->addCountryFilter($countryCode);
+        }
+
+        if ($regionIds) {
+            $collection->addFieldToFilter('main_table.region_id', ['in' => $regionIds]);
+        }
+
+        return $collection->getData();
+    }
+
+    /**
+     * Get all countries
+     *
+     * @return mixed
+     */
+    public function getAllCountries()
+    {
+        $countryList = Mage::getModel('directory/country')->getResourceCollection()
+            ->loadByStore()
+            ->toOptionArray(false);
+
+        return $countryList;
+    }
+
     /**
      * Get directory region by iplocation region name
      *
@@ -52,46 +90,11 @@ class Oggetto_GeoDetection_Model_Directory_Fetcher
 
         $data = Mage::getModel('directory/region')->load($directoryRegionId)->getData();
 
-        return $data ? $data : null;
-    }
-
-    /**
-     * Get regions and cities
-     *
-     * @param string|null $countryCode   Country code
-     * @param bool|null   $onlyConnected Select only connected with iplocations regions
-     *
-     * @return array
-     */
-    public function getRegionsAndCities($countryCode = null, $onlyConnected = null)
-    {
-        /** @var Oggetto_Shipping_Model_Resource_City_Collection $cityCollection */
-        $cityCollection = Mage::getResourceModel('oggetto_shipping/city_collection');
-        $returnLocation = [];
-
-        if ($cityCollection) {
-            /** @var Oggetto_GeoDetection_Model_Directory_Region_Fetcher $regionFetcher */
-            $regionFetcher = Mage::getModel('oggetto_geodetection/directory_region_fetcher');
-
-            $regionsIds = null;
-            if ($onlyConnected) {
-                $regionsIds = Mage::getModel('oggetto_geodetection/location_relation_fetcher')
-                    ->getRegionsIds($countryCode);
-            }
-
-            $regions = $regionFetcher->getRegions($countryCode, $regionsIds);
-            $cities  = $cityCollection->getData();
-
-            foreach ($regions as $region) {
-                foreach ($cities as $city) {
-                    if ($region['region_id'] == $city['region_id']) {
-                        $returnLocation[$region['default_name']]['cities'][] = $city['default_name'];
-                        $returnLocation[$region['default_name']]['id'] = $region['region_id'];
-                    }
-                }
-            }
+        if (!$data) {
+            return null;
         }
 
-        return $returnLocation;
+        return $data;
     }
+
 }

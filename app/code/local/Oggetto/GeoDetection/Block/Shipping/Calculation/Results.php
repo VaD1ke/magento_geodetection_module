@@ -13,7 +13,7 @@
  *
  * Do not edit or add to this file if you wish to upgrade
  * the Oggetto Geo Detection module to newer versions in the future.
- * If you wish to customize the Oggetto Geo Detection module for your needs
+ * If you wish to customize the Oggetto GeoDetection module for your needs
  * please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Oggetto
@@ -23,37 +23,43 @@
  */
 
 /**
- * Helper Translator
+ * Block class for showing shipping methods results
  *
  * @category   Oggetto
  * @package    Oggetto_GeoDetection
- * @subpackage Helper
+ * @subpackage Block
  * @author     Vladislav Slesarenko <vslesarenko@oggettoweb.com>
  */
-class Oggetto_GeoDetection_Helper_Translator extends Mage_Core_Helper_Data
+class Oggetto_GeoDetection_Block_Shipping_Calculation_Results extends Mage_Core_Block_Template
 {
     /**
-     * Convert to directory city code
+     * Methods data
      *
-     * @param string $iplocationCity IPlocation city name
-     *
-     * @return string
+     * @var array
      */
-    public function convertToDirectoryCityCode($iplocationCity)
+    protected $_methodsData;
+
+    /**
+     * Set methods data
+     *
+     * @param array $methodsData Methods data
+     *
+     * @return $this
+     */
+    public function setMethodsData($methodsData)
     {
-        $convertedCityCode = str_replace("'", '-', strtolower($this->_getSpecialCityName($iplocationCity)));
-        return $convertedCityCode;
+        $this->_methodsData = $methodsData;
+
+        return $this;
     }
 
     /**
-     * Get special city name
+     * Get methods data
      *
-     * @param string $city City
-     *
-     * @return string
+     * @return array
      */
-    protected function _getSpecialCityName($city)
+    public function getMethodsData()
     {
-        return ($city == 'Moscow') ? 'Moskva' : $city;
+        return $this->_methodsData;
     }
 }

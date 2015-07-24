@@ -41,12 +41,7 @@ class Oggetto_GeoDetection_Model_Location_Fetcher extends Mage_Core_Model_Abstra
      */
     public function getLocationByIp($ipAddress)
     {
-        /** @var Oggetto_GeoDetection_Model_Resource_Location_Collection $collection */
-        $collection = Mage::getResourceModel('oggetto_geodetection/location_collection');
-
-        $collection->getLocationInIpRange($ipAddress);
-
-        $data = $collection->getFirstItem()->getData();
+        $data = Mage::getModel('oggetto_geodetection/location')->loadByIp($ipAddress)->getData();
 
         /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
         $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
@@ -61,8 +56,8 @@ class Oggetto_GeoDetection_Model_Location_Fetcher extends Mage_Core_Model_Abstra
     /**
      * Get regions and cities by country code
      *
-     * @param string $countryCode   Country code
-     * @param bool   $onlyConnected Select only connected with directory regions
+     * @param string|null $countryCode   Country code
+     * @param bool|null   $onlyConnected Select only connected with directory regions
      *
      * @return array
      */
@@ -125,11 +120,12 @@ class Oggetto_GeoDetection_Model_Location_Fetcher extends Mage_Core_Model_Abstra
     /**
      * Get regions
      *
-     * @param string $countryCode Country code
+     * @param string    $countryCode   Country code
+     * @param null|bool $onlyConnected Connected with relations
      *
      * @return array
      */
-    public function getRegions($countryCode = null)
+    public function getRegions($countryCode = null, $onlyConnected = null)
     {
         /** @var Oggetto_GeoDetection_Model_Resource_Location_Collection $collection */
         $collection = Mage::getResourceModel('oggetto_geodetection/location_collection');
@@ -139,36 +135,15 @@ class Oggetto_GeoDetection_Model_Location_Fetcher extends Mage_Core_Model_Abstra
             $collection->filterByCountryCode($countryCode);
         }
 
-        $regions = $collection->getData();
+        if ($onlyConnected === false) {
+            /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
+            $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
 
-        foreach ($regions as $index => $region) {
-            $regions[$index] = $region['region_name'];
-        }
+            $iplocationRegions = $relationModel->getAllIplocationRegionNames($countryCode);
 
-        return $regions;
-    }
-
-    /**
-     * Get regions that not in relations
-     *
-     * @param string $countryCode Country code
-     *
-     * @return array
-     */
-    public function getNotConnectedRegions($countryCode)
-    {
-        /** @var Oggetto_GeoDetection_Model_Resource_Location_Collection $collection */
-        $collection = Mage::getResourceModel('oggetto_geodetection/location_collection');
-
-        /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
-        $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
-
-        $iplocationRegions = $relationModel->getAllIplocationRegionNames($countryCode);
-
-        $collection->selectRegions()->filterByCountryCode($countryCode);
-
-        if ($iplocationRegions) {
-            $collection->filterRegionsNotIn($iplocationRegions);
+            if ($iplocationRegions) {
+                $collection->filterRegionsNotIn($iplocationRegions);
+            }
         }
 
         $regions = $collection->getData();

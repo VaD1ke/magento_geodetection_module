@@ -49,13 +49,13 @@ class Oggetto_GeoDetection_Block_Header_Location extends Mage_Page_Block_Html_He
         /** @var Oggetto_GeoDetection_Helper_Data $helper */
         $helper = Mage::helper('oggetto_geodetection');
 
+        /** @var Oggetto_GeoDetection_Model_Directory_Converter $converterModel */
+        $converterModel = Mage::getModel('oggetto_geodetection/directory_converter');
+
         if (!$locationCookie) {
             $ipAddress = Mage::helper('core/http')->getRemoteAddr(true);
 
-            /** @var Oggetto_GeoDetection_Model_Location_Fetcher $locationModel */
-            $locationModel = Mage::getModel('oggetto_geodetection/location_fetcher');
-
-            $location = $locationModel->getLocationByIp($ipAddress);
+            $location = Mage::getModel('oggetto_geodetection/location_fetcher')->getLocationByIp($ipAddress);
 
             if (!$location || $location['city_name'] == '-') {
 
@@ -64,23 +64,29 @@ class Oggetto_GeoDetection_Block_Header_Location extends Mage_Page_Block_Html_He
                     return null;
                 }
 
+                $convertedLocation = $converterModel->convertLocation($defaultCity[0], $defaultCity[1]);
+
                 $cookieData = [
                     'country'   => $helper->getDefaultCountry(),
-                    'region_id' => $defaultCity[1],
-                    'city'      => $defaultCity[0],
+                    'region_id' => $convertedLocation['region_id'],
+                    'city'      => $convertedLocation['city'],
                 ];
 
             } else {
+                $regionId = Mage::getModel('oggetto_geodetection/location_relation_fetcher')
+                            ->getRegionIdByIplocationRegionName($location['region_name']);
 
-                /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
-                $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
+                $convertedLocation = $converterModel->convertLocation($location['city_name'], $regionId);
+
+                if (!$convertedLocation['city']) {
+                    return null;
+                }
 
                 $cookieData = [
                     'country'   => $location['country_code'],
-                    'region_id' => $relationModel->getRegionIdByIplocationRegionName($location['region_name']),
-                    'city'      => $location['city_name']
+                    'region_id' => $convertedLocation['region_id'],
+                    'city'      => $convertedLocation['city'],
                 ];
-
             }
 
             $cookieModel->set(self::LOCATION_COOKIE_NAME, $helper->jsonEncode($cookieData), 0, '/', null, null, false);
@@ -101,7 +107,7 @@ class Oggetto_GeoDetection_Block_Header_Location extends Mage_Page_Block_Html_He
         /** @var Oggetto_GeoDetection_Model_Location_Relation_Fetcher $relationModel */
         $relationModel = Mage::getModel('oggetto_geodetection/location_relation_fetcher');
 
-        return !$relationModel->isCollectionEmpty(Mage::helper('oggetto_geodetection')->getDefaultCountry());
+        return !$relationModel->isCollectionEmpty($this->getDefaultCountry());
     }
 
     /**

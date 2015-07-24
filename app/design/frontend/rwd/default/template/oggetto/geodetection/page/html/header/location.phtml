@@ -3,9 +3,9 @@
 <?php if ($this->isEnabled()):
     $_location = $this->getUserLocation();?>
 
-    <div id="geo_detection">
-        <h4>Ваш город: </h4>
-        <a href="#" id="geo_detection-city" class="city-trigger"
+    <div id="geo_detection" class="geo-detection">
+        <h4 class="geo-detection-city"><?php echo $this->__('Your city') . ':'; ?> </h4>
+        <a href="#" id="geo_detection-city" class="geo-detection-city-trigger"
            data-country-code="<?php echo $_location['country'] ? $_location['country'] : $this->getDefaultCountry(); ?>">
             <?php echo ($_location) ? $_location['city'] : $this->__('Select your city'); ?>
         </a>

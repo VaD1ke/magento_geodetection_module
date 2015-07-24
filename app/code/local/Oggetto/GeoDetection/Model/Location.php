@@ -42,4 +42,16 @@ class Oggetto_GeoDetection_Model_Location extends Mage_Core_Model_Abstract
         parent::_construct();
         $this->_init('oggetto_geodetection/location');
     }
+
+    /**
+     * Load by ip
+     *
+     * @param integer $ip IP
+     *
+     * @return $this
+     */
+    public function loadByIp($ip)
+    {
+        return $this->getResource()->loadByIp($this, $ip);
+    }
 }

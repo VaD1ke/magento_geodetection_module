@@ -42,11 +42,6 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
      */
     const FAKE_PRODUCTS_QTY = 1;
 
-    /**
-     * Extmage Shipcc shipping method code
-     */
-    const EXTMAGE_SHIPCC_METHOD_CODE = 'shipcc';
-
 
     /**
      * Get shipping results
@@ -58,7 +53,10 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
      */
     public function getShippingResults($methods, $product)
     {
-        $requestData = $this->_prepareDataForRequest($this->_getCheapestSimpleProduct($product));
+        /** @var Oggetto_GeoDetection_Model_Product_Getter $productGetter */
+        $productGetter = Mage::getModel('oggetto_geodetection/product_getter');
+
+        $requestData = $this->_prepareDataForRequest($productGetter->getCheapestSimpleProduct($product));
 
         $calculation = [];
 
@@ -67,10 +65,6 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
             $carrier = Mage::getModel('shipping/shipping')->getCarrierByCode($methodCode);
 
             if ($carrier) {
-                if ($methodCode == self::EXTMAGE_SHIPCC_METHOD_CODE) {
-                    $requestData['dest_city'] = $this->_convertToShipccCity($requestData['dest_city']);
-                }
-
                 $result = $carrier->collectRates($this->_prepareRequest($requestData));
 
                 if ($result && !$result->getError()) {
@@ -78,7 +72,8 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
 
                     foreach ($shippingRates as $rate) {
                         $calculation[$rate->getCarrierTitle()][$rate->getMethodTitle()] = [
-                            'price' => $rate->getPrice()
+                            'price' => $rate->getPrice(),
+                            'date'  => $rate->getShipmentDates(),
                         ];
                     }
                 }
@@ -118,31 +113,6 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
     }
 
     /**
-     * Get cheapest simple product
-     *
-     * @param Mage_Catalog_Model_Product $product Product
-     *
-     * @return Mage_Catalog_Model_Product
-     */
-    protected function _getCheapestSimpleProduct($product)
-    {
-        $typeId = $product->getTypeId();
-
-        $cheapestProduct = $product;
-
-        if ($typeId == Mage_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
-            /** @var Mage_Catalog_Model_Product_Type_Configurable $modelConfigurable */
-            $modelConfigurable = Mage::getModel('catalog/product_type_configurable');
-
-            $childProducts = $modelConfigurable->getUsedProductIds($product);
-
-            $cheapestProduct = $this->_getCheapestProduct($childProducts);
-        }
-
-        return $cheapestProduct;
-    }
-
-    /**
      * Prepare data for shipping request
      *
      * @param Mage_Catalog_Model_Product $product Product
@@ -178,52 +148,4 @@ class Oggetto_GeoDetection_Model_Shipping_Handler
         return $requestData;
     }
 
-    /**
-     * Convert to shipcc city
-     *
-     * @param string $city City
-     *
-     * @return string
-     */
-    protected function _convertToShipccCity($city)
-    {
-        $cityCode = Mage::helper('oggetto_geodetection/translator')->convertToDirectoryCityCode($city);
-
-        /** @var Oggetto_Shipping_Model_City $model */
-        $model = Mage::getModel('oggetto_shipping/city');
-
-        $directoryCity = $model->loadByCode($cityCode);
-
-        return $directoryCity->getName();
-    }
-
-
-    /**
-     * Get cheapest product
-     *
-     * @param array $productIds Product IDs
-     *
-     * @return Mage_Catalog_Model_Product
-     */
-    private function _getCheapestProduct($productIds)
-    {
-        /** @var Mage_Catalog_Model_Resource_Product_Collection $collection */
-        $collection = Mage::getModel('catalog/product')->getCollection();
-        $collection->addAttributeToFilter('entity_id', array('in' => $productIds))
-            ->addAttributeToSelect(['price', 'weight']);
-
-        /** @var Mage_Catalog_Model_Product $cheapestProduct */
-        $cheapestProduct = $collection->getFirstItem();
-
-        $price = $cheapestProduct->getFinalPrice();
-
-        /** @var Mage_Catalog_Model_Product $product */
-        foreach ($collection as $product) {
-            if ($product->getFinalPrice() < $price || is_null($price)) {
-                $cheapestProduct = $product;
-            }
-        }
-
-        return $cheapestProduct;
-    }
 }

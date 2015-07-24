@@ -64,16 +64,16 @@ class Oggetto_GeoDetection_Test_Controller_Location extends EcomDev_PHPUnit_Test
 
         $this->replaceByMock('model', 'oggetto_geodetection/location_fetcher', $modelLocationMock);
 
-        $modelFetcherMock = $this->getModelMock(
-            'oggetto_geodetection/directory_fetcher', ['convertLocationToDirectoryRegions']
+        $modelConverterMock = $this->getModelMock(
+            'oggetto_geodetection/directory_converter', ['convertLocationsToDirectoryRegions']
         );
 
-        $modelFetcherMock->expects($this->once())
-            ->method('convertLocationToDirectoryRegions')
+        $modelConverterMock->expects($this->once())
+            ->method('convertLocationsToDirectoryRegions')
             ->with($regionsAndCities)
             ->willReturn($convertedRegionsAndCities);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/directory_fetcher', $modelFetcherMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/directory_converter', $modelConverterMock);
 
 
         $helperDataMock = $this->getHelperMock('oggetto_geodetection', [ 'getDefaultCountry', 'jsonEncode']);
@@ -136,16 +136,16 @@ class Oggetto_GeoDetection_Test_Controller_Location extends EcomDev_PHPUnit_Test
 
         $this->replaceByMock('model', 'oggetto_geodetection/location_fetcher', $modelLocationMock);
 
-        $modelFetcherMock = $this->getModelMock(
-            'oggetto_geodetection/directory_fetcher', ['convertLocationToDirectoryRegions']
+        $modelConverterMock = $this->getModelMock(
+            'oggetto_geodetection/directory_converter', ['convertLocationsToDirectoryRegions']
         );
 
-        $modelFetcherMock->expects($this->once())
-            ->method('convertLocationToDirectoryRegions')
+        $modelConverterMock->expects($this->once())
+            ->method('convertLocationsToDirectoryRegions')
             ->with($regionsAndCities)
             ->willReturn($convertedRegionsAndCities);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/directory_fetcher', $modelFetcherMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/directory_converter', $modelConverterMock);
 
         $helperDataMock = $this->getHelperMock('oggetto_geodetection', ['getDefaultCountry', 'jsonEncode']);
 
@@ -193,10 +193,10 @@ class Oggetto_GeoDetection_Test_Controller_Location extends EcomDev_PHPUnit_Test
         $this->replaceByMock('model', 'oggetto_geodetection/location_fetcher', $modelLocationMock);
 
 
-        $helperDataMock = $this->getHelperMock('oggetto_geodetection', ['convertLocationToDirectoryRegions']);
+        $helperDataMock = $this->getHelperMock('oggetto_geodetection', ['convertLocationsToDirectoryRegions']);
 
         $helperDataMock->expects($this->never())
-            ->method('convertLocationToDirectoryRegions');
+            ->method('convertLocationsToDirectoryRegions');
 
         $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
 

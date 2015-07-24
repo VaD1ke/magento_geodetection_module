@@ -50,11 +50,11 @@ please refer to http://www.magentocommerce.com for more information.
         </layout>
         <translate>
             <modules>
-                <Oggetto_AdminConfigSearch>
+                <Oggetto_GeoDetection>
                     <files>
                         <default>Oggetto/GeoDetection/Adminhtml.csv</default>
                     </files>
-                </Oggetto_AdminConfigSearch>
+                </Oggetto_GeoDetection>
             </modules>
         </translate>
     </adminhtml>
@@ -78,11 +78,11 @@ please refer to http://www.magentocommerce.com for more information.
         </routers>
         <translate>
             <modules>
-                <Oggetto_AdminConfigSearch>
+                <Oggetto_GeoDetection>
                     <files>
                         <default>Oggetto/GeoDetection/Frontend.csv</default>
                     </files>
-                </Oggetto_AdminConfigSearch>
+                </Oggetto_GeoDetection>
             </modules>
         </translate>
     </frontend>
