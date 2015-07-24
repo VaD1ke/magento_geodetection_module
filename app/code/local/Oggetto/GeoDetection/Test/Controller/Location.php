@@ -43,50 +43,25 @@ class Oggetto_GeoDetection_Test_Controller_Location extends EcomDev_PHPUnit_Test
             'test1' => ['testC1', 'testC2'],
             'test2' => ['testC3']
         ];
-
-        $convertedRegionsAndCities = [
-            'conTest1' => ['testC1', 'testC2'],
-            'conTest2' => ['testC3']
-        ];
-
         $jsonLocations = 'testjson';
 
         $post = ['country_code' => 'code1'];
 
-        $modelLocationMock = $this->getModelMock(
-            'oggetto_geodetection/location_fetcher', ['getRegionsAndCities']
-        );
 
-        $modelLocationMock->expects($this->once())
-            ->method('getRegionsAndCities')
-            ->with($post['country_code'], true)
-            ->willReturn($regionsAndCities);
-
-        $this->replaceByMock('model', 'oggetto_geodetection/location_fetcher', $modelLocationMock);
-
-        $modelConverterMock = $this->getModelMock(
-            'oggetto_geodetection/directory_converter', ['convertLocationsToDirectoryRegions']
-        );
-
-        $modelConverterMock->expects($this->once())
-            ->method('convertLocationsToDirectoryRegions')
-            ->with($regionsAndCities)
-            ->willReturn($convertedRegionsAndCities);
-
-        $this->replaceByMock('model', 'oggetto_geodetection/directory_converter', $modelConverterMock);
+        $this->_mockGetterModelForGettingLocationsWithEstablishedCountryCode($post['country_code'], $regionsAndCities);
 
 
-        $helperDataMock = $this->getHelperMock('oggetto_geodetection', [ 'getDefaultCountry', 'jsonEncode']);
+        $dataHelperMock = $this->getHelperMock('oggetto_geodetection', [ 'getDefaultCountry', 'jsonEncode']);
 
-        $helperDataMock->expects($this->never())
+        $dataHelperMock->expects($this->never())
             ->method('getDefaultCountry');
 
-        $helperDataMock->expects($this->once())
+        $dataHelperMock->expects($this->once())
             ->method('jsonEncode')
-            ->with($convertedRegionsAndCities)
+            ->with($regionsAndCities)
             ->willReturn($jsonLocations);
 
-        $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
+        $this->replaceByMock('helper', 'oggetto_geodetection', $dataHelperMock);
 
 
         $ajaxResponseMock = $this->_getAjaxResponseMockModelWithSuccessData([
@@ -116,49 +91,25 @@ class Oggetto_GeoDetection_Test_Controller_Location extends EcomDev_PHPUnit_Test
             'test2' => ['testC3']
         ];
 
-        $convertedRegionsAndCities = [
-            'conTest1' => ['testC1', 'testC2'],
-            'conTest2' => ['testC3']
-        ];
-
         $jsonLocations = 'testjson';
 
         $countryCode = 'code123';
 
-        $modelLocationMock = $this->getModelMock(
-            'oggetto_geodetection/location_fetcher', ['getRegionsAndCities']
-        );
+        $dataHelperMock = $this->getHelperMock('oggetto_geodetection', ['getDefaultCountry', 'jsonEncode']);
 
-        $modelLocationMock->expects($this->once())
-            ->method('getRegionsAndCities')
-            ->with($countryCode)
-            ->willReturn($regionsAndCities);
-
-        $this->replaceByMock('model', 'oggetto_geodetection/location_fetcher', $modelLocationMock);
-
-        $modelConverterMock = $this->getModelMock(
-            'oggetto_geodetection/directory_converter', ['convertLocationsToDirectoryRegions']
-        );
-
-        $modelConverterMock->expects($this->once())
-            ->method('convertLocationsToDirectoryRegions')
-            ->with($regionsAndCities)
-            ->willReturn($convertedRegionsAndCities);
-
-        $this->replaceByMock('model', 'oggetto_geodetection/directory_converter', $modelConverterMock);
-
-        $helperDataMock = $this->getHelperMock('oggetto_geodetection', ['getDefaultCountry', 'jsonEncode']);
-
-        $helperDataMock->expects($this->once())
+        $dataHelperMock->expects($this->once())
             ->method('getDefaultCountry')
             ->willReturn($countryCode);
 
-        $helperDataMock->expects($this->once())
+        $dataHelperMock->expects($this->once())
             ->method('jsonEncode')
-            ->with($convertedRegionsAndCities)
+            ->with($regionsAndCities)
             ->willReturn($jsonLocations);
 
-        $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
+        $this->replaceByMock('helper', 'oggetto_geodetection', $dataHelperMock);
+        
+
+        $this->_mockGetterModelForGettingLocationsWithEstablishedCountryCode($countryCode, $regionsAndCities);
 
 
         $ajaxResponseMock = $this->_getAjaxResponseMockModelWithSuccessData([
@@ -183,22 +134,22 @@ class Oggetto_GeoDetection_Test_Controller_Location extends EcomDev_PHPUnit_Test
     {
         $post = ['country_code' => 'code1'];
 
-        $modelLocationMock = $this->getModelMock('oggetto_geodetection/location_fetcher', ['getRegionsAndCities']);
+        $getterModelMock = $this->getModelMock('oggetto_geodetection/getter', ['getLocations']);
 
-        $modelLocationMock->expects($this->once())
-            ->method('getRegionsAndCities')
-            ->with($post['country_code'])
+        $getterModelMock->expects($this->once())
+            ->method('getLocations')
+            ->with($post['country_code'], true)
             ->willThrowException(new Exception);
 
-        $this->replaceByMock('model', 'oggetto_geodetection/location_fetcher', $modelLocationMock);
+        $this->replaceByMock('model', 'oggetto_geodetection/getter', $getterModelMock);
 
 
-        $helperDataMock = $this->getHelperMock('oggetto_geodetection', ['convertLocationsToDirectoryRegions']);
+        $dataHelperMock = $this->getHelperMock('oggetto_geodetection', ['convertLocationsToDirectoryRegions']);
 
-        $helperDataMock->expects($this->never())
+        $dataHelperMock->expects($this->never())
             ->method('convertLocationsToDirectoryRegions');
 
-        $this->replaceByMock('helper', 'oggetto_geodetection', $helperDataMock);
+        $this->replaceByMock('helper', 'oggetto_geodetection', $dataHelperMock);
 
 
         $helperCoreMock = $this->getHelperMock('core', ['jsonEncode']);
@@ -231,6 +182,26 @@ class Oggetto_GeoDetection_Test_Controller_Location extends EcomDev_PHPUnit_Test
         $this->_assertRequestsDispatchForwardAndController('index');
     }
 
+
+    /**
+     * Mock getter model for getting locations with established country code
+     *
+     * @param string $countryCode Country code
+     * @param array  $locations   Locations
+     *
+     * @return void
+     */
+    protected function _mockGetterModelForGettingLocationsWithEstablishedCountryCode($countryCode, $locations)
+    {
+        $getterModelMock = $this->getModelMock('oggetto_geodetection/getter', ['getLocations']);
+
+        $getterModelMock->expects($this->once())
+            ->method('getLocations')
+            ->with($countryCode, true)
+            ->willReturn($locations);
+
+        $this->replaceByMock('model', 'oggetto_geodetection/getter', $getterModelMock);
+    }
 
     /**
      * Get helper ajax mock for sending response
