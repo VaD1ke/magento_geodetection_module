@@ -24,7 +24,7 @@
 jQuery( function ($) {
     "use strict";
 
-    $('#geo_detection').on('click', '.city-trigger', function(e) {
+    $('#geo_detection').on('click', '.geo-detection-city-trigger', function(e) {
         e.preventDefault();
         var locations = LocationSingleton.getLocationArray();
 
